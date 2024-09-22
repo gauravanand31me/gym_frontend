@@ -13,7 +13,7 @@ const GalleryPage = () => {
   const fetchImages = async () => {
     try {
       const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/gym-images`, {
-        headers: { 'login_id': document.cookie.replace(/(?:(?:^|.*;\s*)login_id\s*=\s*([^;]*).*$)|^.*$/, "$1") }, // Replace document.cookie.replace(/(?:(?:^|.*;\s*)login_id\s*=\s*([^;]*).*$)|^.*$/, "$1") with the actual login ID or get it from state/context
+        headers: { 'auth': document.cookie.replace(/(?:(?:^|.*;\s*)auth\s*=\s*([^;]*).*$)|^.*$/, "$1") }, // Replace document.cookie.replace(/(?:(?:^|.*;\s*)auth\s*=\s*([^;]*).*$)|^.*$/, "$1") with the actual login ID or get it from state/context
       });
       setImages(response.data);
     } catch (error) {
@@ -30,7 +30,7 @@ const GalleryPage = () => {
       await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/gym-images`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
-          'login_id': document.cookie.replace(/(?:(?:^|.*;\s*)login_id\s*=\s*([^;]*).*$)|^.*$/, "$1"), // Replace document.cookie.replace(/(?:(?:^|.*;\s*)login_id\s*=\s*([^;]*).*$)|^.*$/, "$1") with the actual login ID or get it from state/context
+          'auth': document.cookie.replace(/(?:(?:^|.*;\s*)auth\s*=\s*([^;]*).*$)|^.*$/, "$1"), // Replace document.cookie.replace(/(?:(?:^|.*;\s*)auth\s*=\s*([^;]*).*$)|^.*$/, "$1") with the actual login ID or get it from state/context
         },
       });
       fetchImages();
@@ -42,7 +42,7 @@ const GalleryPage = () => {
   const handleImageDelete = async (imageId) => {
     try {
       await axios.delete(`${process.env.REACT_APP_API_BASE_URL}/api/gym-images/${imageId}`, {
-        headers: { 'login_id': document.cookie.replace(/(?:(?:^|.*;\s*)login_id\s*=\s*([^;]*).*$)|^.*$/, "$1") }, // Replace document.cookie.replace(/(?:(?:^|.*;\s*)login_id\s*=\s*([^;]*).*$)|^.*$/, "$1") with the actual login ID or get it from state/context
+        headers: { 'auth': document.cookie.replace(/(?:(?:^|.*;\s*)auth\s*=\s*([^;]*).*$)|^.*$/, "$1") }, // Replace document.cookie.replace(/(?:(?:^|.*;\s*)auth\s*=\s*([^;]*).*$)|^.*$/, "$1") with the actual login ID or get it from state/context
       });
       fetchImages();
     } catch (error) {

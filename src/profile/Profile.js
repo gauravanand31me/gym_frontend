@@ -14,7 +14,7 @@ const GymDisplay = () => {
     const fetchGymData = async () => {
         try {
             const response = await axios.get( `${process.env.REACT_APP_API_BASE_URL}/api/fetch`, {
-                headers: { 'login_id': document.cookie.replace(/(?:(?:^|.*;\s*)login_id\s*=\s*([^;]*).*$)|^.*$/, "$1") } // Replace with your actual JWT token
+                headers: { 'auth': document.cookie.replace(/(?:(?:^|.*;\s*)auth\s*=\s*([^;]*).*$)|^.*$/, "$1") } // Replace with your actual JWT token
             });
             setGymData(response.data.gym);
         } catch (error) {
@@ -50,7 +50,7 @@ const GymDisplay = () => {
     const handleSave = async () => {
         try {
             await axios.put(`${process.env.REACT_APP_API_BASE_URL}/api/update`, modalData, {
-                headers: { 'login_id': document.cookie.replace(/(?:(?:^|.*;\s*)login_id\s*=\s*([^;]*).*$)|^.*$/, "$1") } // Replace with your actual JWT token
+                headers: { 'auth': document.cookie.replace(/(?:(?:^|.*;\s*)auth\s*=\s*([^;]*).*$)|^.*$/, "$1") } // Replace with your actual JWT token
             });
             setShowEditModal(false);
             // Optionally, refetch the gym data to reflect changes

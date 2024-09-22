@@ -9,7 +9,7 @@ import axios from 'axios';
 const Header = () => {
   const notificationCount = 2;
   const navigate = useNavigate();
-  const loginId = Cookies.get('login_id');
+  const loginId = Cookies.get('auth');
 
   useEffect(() => {
     const verifyToken = async () => {
@@ -25,12 +25,12 @@ const Header = () => {
         );
 
         if (response.data.message !== 'Token is valid') {
-          Cookies.remove('login_id');
+          Cookies.remove('auth');
           navigate('/login');
         }
       } catch (error) {
         console.error('Error verifying token:', error);
-        Cookies.remove('login_id');
+        Cookies.remove('auth');
         navigate('/login');
       }
     };
@@ -47,7 +47,7 @@ const Header = () => {
   };
 
   const handleLogout = () => {
-    Cookies.remove('login_id');
+    Cookies.remove('auth');
     navigate('/login');
   };
 

@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Register.css'; // Import CSS for custom styles
 import Header from '../components/Header';
 import axios from 'axios'; // Import axios for making HTTP requests
-import { useNavigate  } from 'react-router-dom'; // Import useHistory for redirection
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
 import { ToastContainer, toast } from 'react-toastify'; // Import ToastContainer and toast from react-toastify
 import 'react-toastify/dist/ReactToastify.css'; // Import react-toastify CSS
 
@@ -16,21 +16,36 @@ const GymRegistration = () => {
     gymLocation: {
       addressLine1: '',
       addressLine2: '',
-      city: '',
+      city: '', // Changed to input field
       state: '',
       pinCode: '',
-      country: 'USA', // Default country value
+      country: 'India', // Set default country to India
     },
     equipmentDetails: [{ name: '', quantity: '' }],
     slots: [{ capacity: '', price: '', startTime: '', timePeriod: '' }],
     subscription: { daily: '', monthly: '', yearly: '' },
   });
 
-  const cities = ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Miami'];
-  const states = ['New York', 'California', 'Illinois', 'Texas', 'Florida'];
-  const countries = ['India'];
+  const states = ['Andhra Pradesh', 'Maharashtra', 'Tamil Nadu', 'West Bengal', 'Karnataka']; // Add Indian states
+  const navigate = useNavigate(); // Initialize navigate for navigation
 
-  const navigate = useNavigate(); // Initialize history for navigation
+  // Get device latitude and longitude
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        setFormData((prevData) => ({
+          ...prevData,
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        }));
+      }, (error) => {
+        console.error('Geolocation error:', error);
+        toast.error('Unable to retrieve location.'); // Show error if location retrieval fails
+      });
+    } else {
+      toast.error('Geolocation is not supported by this browser.'); // Show error if geolocation is not supported
+    }
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -45,8 +60,7 @@ const GymRegistration = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Prepare the request body by removing equipmentDetails, slots, and subscription fields
-    const { email, password, gymName, gymDescription, gymLocation } = formData;
+    const { email, password, gymName, gymDescription, gymLocation, latitude, longitude } = formData;
 
     const registrationData = {
       email,
@@ -59,8 +73,8 @@ const GymRegistration = () => {
       city: gymLocation.city,
       state: gymLocation.state,
       country: gymLocation.country,
-      latitude: 40.7128,  // Hardcoded latitude for now
-      longitude: -74.0060 // Hardcoded longitude for now
+      latitude: latitude || 0,  // Use the retrieved latitude
+      longitude: longitude || 0, // Use the retrieved longitude
     };
 
     try {
@@ -80,7 +94,7 @@ const GymRegistration = () => {
     } catch (error) {
       console.error('Gym registration error:', error);
       toast.error('An error occurred while registering the gym.'); // Show generic error message
-     }
+    }
   };
 
   return (
@@ -90,7 +104,6 @@ const GymRegistration = () => {
         <div className="card-body">
           <h2 className="text-center mb-4">Gym Registration</h2>
 
-          {/* Section 1: Gym Info and Location */}
           <div className="form-section">
             <h4>Basic Information</h4>
             <div className="form-group mb-3">
@@ -173,20 +186,14 @@ const GymRegistration = () => {
             </div>
             <div className="form-group mb-3">
               <label>City</label>
-              <select
+              <input
+                type="text"
                 className="form-control"
                 name="city"
                 value={formData.gymLocation.city}
                 onChange={handleGymLocationChange}
                 required
-              >
-                <option value="">Select City</option>
-                {cities.map((city, index) => (
-                  <option key={index} value={city}>
-                    {city}
-                  </option>
-                ))}
-              </select>
+              />
             </div>
             <div className="form-group mb-3">
               <label>State</label>
@@ -216,11 +223,7 @@ const GymRegistration = () => {
                 required
               >
                 <option value="">Select Country</option>
-                {countries.map((country, index) => (
-                  <option key={index} value={country}>
-                    {country}
-                  </option>
-                ))}
+                <option value="India">India</option> {/* Set default country */}
               </select>
             </div>
 

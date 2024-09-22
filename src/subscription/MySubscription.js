@@ -19,7 +19,7 @@ const MySubscriptionPage = () => {
 
   const fetchSubscription = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/subscriptions`, {headers: { 'login_id': document.cookie.replace(/(?:(?:^|.*;\s*)login_id\s*=\s*([^;]*).*$)|^.*$/, "$1") }});
+      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/subscriptions`, {headers: { 'auth': document.cookie.replace(/(?:(?:^|.*;\s*)auth\s*=\s*([^;]*).*$)|^.*$/, "$1") }});
       setSubscription(response.data[0]);
       setFormValues({
         dailyPrice: response.data[0]?.daily,
@@ -59,7 +59,7 @@ const MySubscriptionPage = () => {
           `${process.env.REACT_APP_API_BASE_URL}/api/subscriptions`, 
           formValues, 
           {
-            headers: { 'login_id': document.cookie.replace(/(?:(?:^|.*;\s*)login_id\s*=\s*([^;]*).*$)|^.*$/, "$1") }
+            headers: { 'auth': document.cookie.replace(/(?:(?:^|.*;\s*)auth\s*=\s*([^;]*).*$)|^.*$/, "$1") }
           }
         );
         setEditing(false);

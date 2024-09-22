@@ -18,7 +18,7 @@ const EquipmentPage = () => {
     const fetchEquipment = async () => {
         try {
             const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/equipment`, {
-                headers: { 'login_id': document.cookie.replace(/(?:(?:^|.*;\s*)login_id\s*=\s*([^;]*).*$)|^.*$/, "$1") }
+                headers: { 'auth': document.cookie.replace(/(?:(?:^|.*;\s*)auth\s*=\s*([^;]*).*$)|^.*$/, "$1") }
             });
             setEquipmentList(response.data);
         } catch (error) {
@@ -32,7 +32,7 @@ const EquipmentPage = () => {
                 name: newEquipment,
                 quantity: parseInt(quantity),
             }, {
-                headers: { 'login_id': document.cookie.replace(/(?:(?:^|.*;\s*)login_id\s*=\s*([^;]*).*$)|^.*$/, "$1") }
+                headers: { 'auth': document.cookie.replace(/(?:(?:^|.*;\s*)auth\s*=\s*([^;]*).*$)|^.*$/, "$1") }
             });
             setNewEquipment('');
             setQuantity('');
@@ -45,7 +45,7 @@ const EquipmentPage = () => {
     const handleDeleteEquipment = async (id) => {
         try {
             await axios.delete(`${process.env.REACT_APP_API_BASE_URL}/api/equipment/${id}`, {
-                headers: { 'login_id': document.cookie.replace(/(?:(?:^|.*;\s*)login_id\s*=\s*([^;]*).*$)|^.*$/, "$1") }
+                headers: { 'auth': document.cookie.replace(/(?:(?:^|.*;\s*)auth\s*=\s*([^;]*).*$)|^.*$/, "$1") }
             });
             fetchEquipment();
         } catch (error) {
@@ -59,7 +59,7 @@ const EquipmentPage = () => {
                 name: editName,
                 quantity: parseInt(editQuantity),
             }, {
-                headers: { 'login_id': document.cookie.replace(/(?:(?:^|.*;\s*)login_id\s*=\s*([^;]*).*$)|^.*$/, "$1") }
+                headers: { 'auth': document.cookie.replace(/(?:(?:^|.*;\s*)auth\s*=\s*([^;]*).*$)|^.*$/, "$1") }
             });
             setEditing(null);
             setEditName('');

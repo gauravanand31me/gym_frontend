@@ -13,7 +13,7 @@ const HomePage = () => {
 
   const fetchGymData = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/fetch`, { headers: { 'login_id': document.cookie.replace(/(?:(?:^|.*;\s*)login_id\s*=\s*([^;]*).*$)|^.*$/, "$1") } });
+      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/fetch`, { headers: { 'auth': document.cookie.replace(/(?:(?:^|.*;\s*)auth\s*=\s*([^;]*).*$)|^.*$/, "$1") } });
       setGymData(response.data);
     } catch (error) {
       console.error('Error fetching gym data:', error);

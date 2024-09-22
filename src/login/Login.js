@@ -14,7 +14,7 @@ const LoginWithPin = () => {
     password: '',
   });
   const [error, setError] = useState(null);
-  const loginId = Cookies.get('login_id');
+  const loginId = Cookies.get('auth');
 
   useEffect(() => {
     // Function to verify the token by making an API call
@@ -37,7 +37,7 @@ const LoginWithPin = () => {
       } catch (error) {
         console.error('Error verifying token:', error);
         // Clear any stale token
-        Cookies.remove('login_id');
+        Cookies.remove('auth');
       }
     };
 
@@ -63,7 +63,7 @@ const LoginWithPin = () => {
       const { token } = response.data;
 
       // Set token in the cookie
-      document.cookie = `login_id=${token}; path=/;`;
+      document.cookie = `auth=${token}; path=/;`;
 
       // Redirect to the profile page after successful login
       navigate('/profile');

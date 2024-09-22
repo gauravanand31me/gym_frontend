@@ -19,7 +19,7 @@ const SlotPage = () => {
     const fetchSlots = async () => {
         try {
             const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/slots`, {
-                headers: { 'login_id': document.cookie.replace(/(?:(?:^|.*;\s*)login_id\s*=\s*([^;]*).*$)|^.*$/, "$1") }
+                headers: { 'auth': document.cookie.replace(/(?:(?:^|.*;\s*)auth\s*=\s*([^;]*).*$)|^.*$/, "$1") }
             });
             setSlotList(response.data);
         } catch (error) {
@@ -34,7 +34,7 @@ const SlotPage = () => {
                 startTime: newSlot.startTime.length === 5 ? `${newSlot.startTime}:00` : newSlot.startTime
             };
             await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/slots`, formattedSlot, {
-                headers: { 'login_id': document.cookie.replace(/(?:(?:^|.*;\s*)login_id\s*=\s*([^;]*).*$)|^.*$/, "$1") }
+                headers: { 'auth': document.cookie.replace(/(?:(?:^|.*;\s*)auth\s*=\s*([^;]*).*$)|^.*$/, "$1") }
             });
             setNewSlot({ startTime: '', capacity: '', price: '', timePeriod: '' });
             fetchSlots();
@@ -46,7 +46,7 @@ const SlotPage = () => {
     const handleDeleteSlot = async (id) => {
         try {
             await axios.delete(`${process.env.REACT_APP_API_BASE_URL}/api/slots/${id}`, {
-                headers: { 'login_id': document.cookie.replace(/(?:(?:^|.*;\s*)login_id\s*=\s*([^;]*).*$)|^.*$/, "$1") }
+                headers: { 'auth': document.cookie.replace(/(?:(?:^|.*;\s*)auth\s*=\s*([^;]*).*$)|^.*$/, "$1") }
             });
             fetchSlots();
         } catch (error) {
