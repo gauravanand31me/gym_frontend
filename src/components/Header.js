@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import './Header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom'; // Import Link from react-router-dom
 import Cookies from 'js-cookie';
 import axios from 'axios';
 
@@ -55,20 +55,20 @@ const Header = () => {
     <header className="header">
       <div className="container d-flex justify-content-between align-items-center">
         <div className="logo-container">
-          <a className="fancy-link" href="/">
+          <Link className="fancy-link" to="/">
             <h1 className="fitzoo-logo">Fitzoo</h1>
-          </a>
+          </Link>
         </div>
         <nav className="header-nav">
           {loginId ? (
             <>
-              <a href="/visual" className="nav-link">Home</a>
-              <a href="/profile" className="nav-link">Profile</a>
-              <a href="/equipment" className="nav-link">My Equipment</a>
-              <a href="/slots" className="nav-link">My Slots</a>
-              <a href="/gallery" className="nav-link">My Gallery</a>
-              <a href="/subscription" className="nav-link">My Subscription</a>
-              <a href="/booking" className="nav-link">My Bookings</a>
+              {/* <Link to="/visual" className="nav-link">Home</Link> */}
+              <Link to="/profile" className="nav-link">Profile</Link>
+              <Link to="/equipment" className="nav-link">My Equipment</Link>
+              <Link to="/slots" className="nav-link">My Slots</Link>
+              <Link to="/gallery" className="nav-link">My Gallery</Link>
+              <Link to="/subscription" className="nav-link">My Subscription</Link>
+              <Link to="/booking" className="nav-link">My Bookings</Link>
               <div className="notification-container" onClick={handleNotificationClick}>
                 <FontAwesomeIcon icon={faBell} className="notification-icon" />
                 {notificationCount > 0 && (
@@ -82,8 +82,8 @@ const Header = () => {
             </>
           ) : (
             <>
-              <a href="/login" className="nav-link btn-login">Login</a>
-              <a href="/register" className="nav-link btn-register">Register Gym</a>
+              <Link to="/login" className="nav-link btn-login">Login</Link>
+              <Link to="/register" className="nav-link btn-register">Register Gym</Link>
             </>
           )}
         </nav>
