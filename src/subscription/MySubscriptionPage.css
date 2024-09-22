@@ -1,0 +1,86 @@
+/* MySubscriptionPage.css */
+
+.subscription-container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 100px;
+  }
+  
+  .subscription-header {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  
+  .subscription-details {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .subscription-price {
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .subscription-price h2 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  
+  .subscription-price p {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .subscription-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group label {
+    margin-bottom: 5px;
+  }
+  
+  .form-group input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+  
+  .submit-button, .cancel-button, .edit-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .submit-button:hover, .cancel-button:hover, .edit-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .cancel-button {
+    background-color: #6c757d;
+  }
+  
+  .cancel-button:hover {
+    background-color: #5a6268;
+  }
+  

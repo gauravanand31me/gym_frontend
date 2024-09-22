@@ -1,0 +1,66 @@
+/* Login page styles */
+.login-page {
+    position: relative;
+    height: 100vh;
+    background-image: url('../img/dumbbells-floor-gym-ai-generative.jpg'); /* Update with your image path */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+  }
+  
+  .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .card {
+    border-radius: 1rem;
+  }
+  
+  .card-body {
+    padding: 2rem;
+  }
+  
+  .card-title {
+    font-size: 2rem;
+    font-weight: 700;
+  }
+  
+  .btn-warning {
+    background-color: #ffc107;
+    border: none;
+    font-weight: 600;
+  }
+  
+  .btn-warning:hover {
+    background-color: #e0a800;
+  }
+  
+  .btn-outline-light {
+    color: #fff;
+    border: 2px solid #fff;
+    font-weight: 600;
+  }
+  
+  .btn-outline-light:hover {
+    background-color: #fff;
+    color: #000;
+  }
+  
+  .form-control {
+    border-radius: 0.5rem;
+  }
+
+  .text-light {
+    --bs-text-opacity: 1;
+    color: rgb(145 130 177) !important;
+}
+  
+  /* Header Styles */

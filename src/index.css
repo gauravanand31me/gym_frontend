@@ -1,13 +1,24 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  position: relative; /* Make sure body is positioned relatively for overlay positioning */
+  margin: 0; /* Remove any default margins */
+  padding: 0;
+  height: 100vh; /* Full height to cover the viewport */
+
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.background-overlay {
+  position: fixed; /* Position it to cover the entire viewport */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('./img/dumbbells-floor-gym-ai-generative.jpg') no-repeat center center fixed; 
+  background-size: cover; /* Ensures the image covers the entire background */
+  opacity: 0.9; /* Slightly transparent background */
+  z-index: -1; /* Ensure it stays behind the content */
+}
+
+.content {
+  position: relative; /* Position content normally */
+  z-index: 1; /* Ensure content stays above the background */
 }
