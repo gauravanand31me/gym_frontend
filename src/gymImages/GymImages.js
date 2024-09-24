@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Card, Modal, Button, Form, Container, Row, Col } from 'react-bootstrap';
 import Header from '../components/Header';
+import MapComponent from '../components/MapComponent'; // Import the new MapComponent
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './GymImages.css'; // Assuming you have a custom CSS file for additional styling
 import { ToastContainer, toast } from 'react-toastify';
@@ -13,6 +14,7 @@ const MergedGymPage = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [modalData, setModalData] = useState({});
   const [images, setImages] = useState([]);
+  const [showMap, setShowMap] = useState(false); // New state for showing the map
 
   // Fetch Gym Data
   const fetchGymData = async () => {
@@ -69,9 +71,16 @@ const MergedGymPage = () => {
 
   // Save Edited Gym Details
   const handleSave = async () => {
+    setShowMap(true); // Show the map when saving
+  };
+
+  const handleMapSave = async () => {
+    console.log("ModalData is", modalData);
     try {
       await axios.put(`${process.env.REACT_APP_API_BASE_URL}/api/update`, modalData, {
-        headers: { 'auth': document.cookie.replace(/(?:(?:^|.*;\s*)auth\s*=\s*([^;]*).*$)|^.*$/, "$1") }
+        headers: { 
+          'auth': document.cookie.replace(/(?:(?:^|.*;\s*)auth\s*=\s*([^;]*).*$)|^.*$/, "$1") 
+        }
       });
       setShowEditModal(false);
       toast.success('Gym Updated Successfully');
@@ -79,6 +88,25 @@ const MergedGymPage = () => {
     } catch (error) {
       toast.error('Error updating gym data:', error);
     }
+  };
+  
+  // Handle location selection from the map
+  const handleLocationSelect = (location) => {
+   
+    // Update modalData with the new location
+    setModalData((prevData) => {
+      const updatedData = {
+        ...prevData,
+        latitude: location.lat,
+        longitude: location.lng,
+      };
+  
+      // Call handleMapSave with the updated data
+
+      return updatedData; // Return the new state for modalData
+    });
+  
+
   };
 
   // Image Upload
@@ -150,7 +178,7 @@ const MergedGymPage = () => {
               </Card.Body>
             </Card>
           </Col>
-          
+
           {/* Gym Details Section */}
           <Col md={6} className="gym-details-col">
             <Card className="shadow-lg mb-4">
@@ -174,7 +202,7 @@ const MergedGymPage = () => {
               </Card.Body>
             </Card>
           </Col>
-          
+
         </Row>
         {/* Modal for Editing Gym Details */}
         <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
@@ -183,110 +211,44 @@ const MergedGymPage = () => {
           </Modal.Header>
           <Modal.Body>
             <Form>
-              {/* Form Fields for Gym Data */}
-              <Form.Group className="mb-3">
-                <Form.Label>Name</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="name"
-                  value={modalData.name || ''}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Description</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  name="description"
-                  value={modalData.description || ''}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Address Line 1</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="addressLine1"
-                  value={modalData.addressLine1 || ''}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Address Line 2</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="addressLine2"
-                  value={modalData.addressLine2 || ''}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>City</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="city"
-                  value={modalData.city || ''}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>State</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="state"
-                  value={modalData.state || ''}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Country</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="country"
-                  value={modalData.country || ''}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Pin Code</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="pinCode"
-                  value={modalData.pinCode || ''}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Latitude</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="latitude"
-                  value={modalData.latitude || ''}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Longitude</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="longitude"
-                  value={modalData.longitude || ''}
-                  onChange={handleChange}
-                />
-              </Form.Group>
+              {Object.keys(modalData).map((key) => (
+                <Form.Group controlId={key} key={key}>
+                  <Form.Label>{key.charAt(0).toUpperCase() + key.slice(1)}</Form.Label>
+                  <Form.Control
+                    type={key.includes('latitude') || key.includes('longitude') ? 'number' : 'text'}
+                    name={key}
+                    value={modalData[key]}
+                    onChange={handleChange}
+                  />
+                </Form.Group>
+              ))}
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={() => setShowEditModal(false)}>
-              Cancel
-            </Button>
-            <Button variant="primary" onClick={handleSave}>
-              Save Changes
-            </Button>
+            <Button variant="secondary" onClick={() => setShowEditModal(false)}>Close</Button>
+            <Button variant="primary" onClick={handleSave}>Save Changes</Button>
           </Modal.Footer>
         </Modal>
+
+        {/* Show Google Map */}
+   
+        {showMap && (
+          <Modal show={showMap} onHide={() => setShowMap(false)} size="lg">
+            <Modal.Header closeButton>
+              <Modal.Title>Select Location</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <MapComponent onLocationSelect={handleLocationSelect} pinCode={modalData.pinCode}/>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="primary" onClick={() => handleMapSave()}>Save Changes</Button>
+              <Button variant="secondary" onClick={() => setShowMap(false)}>Close</Button>
+            </Modal.Footer>
+          </Modal>
+        )}
+
+        <ToastContainer />
       </Container>
-      <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
     </>
   );
 };

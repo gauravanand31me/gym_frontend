@@ -223,7 +223,7 @@ const GymRegistration = () => {
                 required
               >
                 <option value="">Select Country</option>
-                <option value="India">India</option> {/* Set default country */}
+                <option value="India">India</option> 
               </select>
             </div>
 
