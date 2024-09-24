@@ -1,204 +1,84 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Card, Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
-import { Modal, Button, Form, Card } from 'react-bootstrap';
-import axios from 'axios';
-import "./Profile.css";
-import { ToastContainer, toast } from 'react-toastify'; // Import ToastContainer and toast from react-toastify
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDumbbell, faClock, faImage, faMapMarkerAlt, faSave } from '@fortawesome/free-solid-svg-icons';
+import './Profile.css'; // Include your CSS file for styling
 
 const GymDisplay = () => {
-    const [gymData, setGymData] = useState(null);
-    const [showEditModal, setShowEditModal] = useState(false);
-    const [modalData, setModalData] = useState({});
+    const navigate = useNavigate();
 
-    const fetchGymData = async () => {
-        try {
-            const response = await axios.get( `${process.env.REACT_APP_API_BASE_URL}/api/fetch`, {
-                headers: { 'auth': document.cookie.replace(/(?:(?:^|.*;\s*)auth\s*=\s*([^;]*).*$)|^.*$/, "$1") } // Replace with your actual JWT token
-            });
-            setGymData(response.data.gym);
-        } catch (error) {
-            console.error('Error fetching gym data:', error);
-        }
-    };
-    
-    useEffect(() => {
-        fetchGymData();
-    }, []);
-
-    const handleShowEditModal = () => {
-        setModalData({
-            name: gymData?.name || '',
-            description: gymData?.description || '',
-            addressLine1: gymData?.addressLine1 || '',
-            addressLine2: gymData?.addressLine2 || '',
-            city: gymData?.city || '',
-            state: gymData?.state || '',
-            country: gymData?.country || '',
-            pinCode: gymData?.pinCode || '',
-            latitude: gymData?.latitude || '',
-            longitude: gymData?.longitude || '',
-        });
-        setShowEditModal(true);
-    };
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setModalData((prevData) => ({ ...prevData, [name]: value }));
-    };
-
-    const handleSave = async () => {
-        try {
-            await axios.put(`${process.env.REACT_APP_API_BASE_URL}/api/update`, modalData, {
-                headers: { 'auth': document.cookie.replace(/(?:(?:^|.*;\s*)auth\s*=\s*([^;]*).*$)|^.*$/, "$1") } // Replace with your actual JWT token
-            });
-            setShowEditModal(false);
-            // Optionally, refetch the gym data to reflect changes
-            toast.success('Gym Updated Successfully'); // Show error message
-            await fetchGymData();
-        } catch (error) {
-            toast.error('Error updating gym data:', error);
-        }
+    // Handlers for navigation
+    const handleNavigate = (path) => {
+        navigate(path);
     };
 
     return (
         <>
             <Header />
-            <div className="container gym-container">
-                <Card className="shadow-lg">
-                    <Card.Header className="bg-primary text-white d-flex justify-content-between align-items-center">
-                        <h2>{gymData?.name || 'Loading...'}</h2>
-                        <Button variant="light" onClick={handleShowEditModal}>Modify Details</Button>
-                    </Card.Header>
-                    <Card.Body>
-                        <Card.Title>Gym Description</Card.Title>
-                        <Card.Text>{gymData?.description}</Card.Text>
-
-                        <Card.Title>Gym Location</Card.Title>
-                        <Card.Text>
-                            {gymData?.addressLine1}, {gymData?.addressLine2}<br />
-                            {gymData?.city}, {gymData?.state}, {gymData?.country}, {gymData?.pinCode}
-                        </Card.Text>
-
-                        <Card.Title>Coordinates</Card.Title>
-                        <Card.Text>
-                            Latitude: {gymData?.latitude}<br />
-                            Longitude: {gymData?.longitude}
-                        </Card.Text>
-                    </Card.Body>
-                </Card>
-
-                {/* Modal for Editing Gym Details */}
-                <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Edit Gym Details</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <Form>
-                            <Form.Group className="mb-3">
-                                <Form.Label>Name</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    name="name"
-                                    value={modalData.name || ''}
-                                    onChange={handleChange}
-                                />
-                            </Form.Group>
-                            <Form.Group className="mb-3">
-                                <Form.Label>Description</Form.Label>
-                                <Form.Control
-                                    as="textarea"
-                                    name="description"
-                                    value={modalData.description || ''}
-                                    onChange={handleChange}
-                                />
-                            </Form.Group>
-                            <Form.Group className="mb-3">
-                                <Form.Label>Address Line 1</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    name="addressLine1"
-                                    value={modalData.addressLine1 || ''}
-                                    onChange={handleChange}
-                                />
-                            </Form.Group>
-                            <Form.Group className="mb-3">
-                                <Form.Label>Address Line 2</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    name="addressLine2"
-                                    value={modalData.addressLine2 || ''}
-                                    onChange={handleChange}
-                                />
-                            </Form.Group>
-                            <Form.Group className="mb-3">
-                                <Form.Label>City</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    name="city"
-                                    value={modalData.city || ''}
-                                    onChange={handleChange}
-                                />
-                            </Form.Group>
-                            <Form.Group className="mb-3">
-                                <Form.Label>State</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    name="state"
-                                    value={modalData.state || ''}
-                                    onChange={handleChange}
-                                />
-                            </Form.Group>
-                            <Form.Group className="mb-3">
-                                <Form.Label>Country</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    name="country"
-                                    value={modalData.country || ''}
-                                    onChange={handleChange}
-                                />
-                            </Form.Group>
-                            <Form.Group className="mb-3">
-                                <Form.Label>Pin Code</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    name="pinCode"
-                                    value={modalData.pinCode || ''}
-                                    onChange={handleChange}
-                                />
-                            </Form.Group>
-                            <Form.Group className="mb-3">
-                                <Form.Label>Latitude</Form.Label>
-                                <Form.Control
-                                    type="number"
-                                    step="0.0001"
-                                    name="latitude"
-                                    value={modalData.latitude || ''}
-                                    onChange={handleChange}
-                                />
-                            </Form.Group>
-                            <Form.Group className="mb-3">
-                                <Form.Label>Longitude</Form.Label>
-                                <Form.Control
-                                    type="number"
-                                    step="0.0001"
-                                    name="longitude"
-                                    value={modalData.longitude || ''}
-                                    onChange={handleChange}
-                                />
-                            </Form.Group>
-                        </Form>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={() => setShowEditModal(false)}>
-                            Close
-                        </Button>
-                        <Button variant="primary" onClick={handleSave}>
-                            Save Changes
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
-                <ToastContainer />
+            <div className="profile-container my-5">
+                <h1 className="heading text-center mb-4">
+                    Follow These Simple Steps to Complete Your Gym Profile
+                </h1>
+                <p className="subheading text-center mb-5">
+                    Each step helps in showcasing your gym better to potential clients.
+                </p>
+                
+                <div className="row justify-content-center">
+                    {/* Step Cards */}
+                    <div className="col-md-4 mb-4">
+                        <Card className="step-card shadow">
+                            <Card.Body>
+                                <FontAwesomeIcon icon={faDumbbell} size="3x" className="icon mb-3" />
+                                <Card.Title className="card-title">Add Equipment</Card.Title>
+                                <Card.Text className="card-text">
+                                    List all the equipment available in your gym to attract customers.
+                                </Card.Text>
+                                <Button className="card-button" onClick={() => handleNavigate('/equipment')}>Add Equipment</Button>
+                            </Card.Body>
+                        </Card>
+                    </div>
+                    <div className="col-md-4 mb-4">
+                        <Card className="step-card shadow">
+                            <Card.Body>
+                                <FontAwesomeIcon icon={faClock} size="3x" className="icon mb-3" />
+                                <Card.Title className="card-title">Add Slots</Card.Title>
+                                <Card.Text className="card-text">
+                                    Define time slots for gym sessions, classes, or personal training.
+                                </Card.Text>
+                                <Button className="card-button" onClick={() => handleNavigate('/slots')}>Add Slots</Button>
+                            </Card.Body>
+                        </Card>
+                    </div>
+                    <div className="col-md-4 mb-4">
+                        <Card className="step-card shadow">
+                            <Card.Body>
+                                <FontAwesomeIcon icon={faImage} size="3x" className="icon mb-3" />
+                                <Card.Title className="card-title">Upload Profile Image</Card.Title>
+                                <Card.Text className="card-text">
+                                    Upload a high-quality image of your gym to attract more clients.
+                                </Card.Text>
+                                <Button className="card-button" onClick={() => handleNavigate('/gallery')}>Upload Image</Button>
+                            </Card.Body>
+                        </Card>
+                    </div>
+                    <div className="col-md-4 mb-4">
+                        <Card className="step-card shadow">
+                            <Card.Body>
+                                <FontAwesomeIcon icon={faMapMarkerAlt} size="3x" className="icon mb-3" />
+                                <Card.Title className="card-title">Update Location</Card.Title>
+                                <Card.Text className="card-text">
+                                    Ensure your gym is easy to find by adding your exact location.
+                                </Card.Text>
+                                <Button className="card-button" onClick={() => handleNavigate('/gallery')}>Update Location</Button>
+                            </Card.Body>
+                        </Card>
+                    </div>
+                </div>
+                
+                
             </div>
         </>
     );

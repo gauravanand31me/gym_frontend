@@ -10,7 +10,7 @@ const HomePage = () => {
             {/* Hero Section */}
             <div className="hero-section">
                 <div className="hero-overlay d-flex align-items-center">
-                    <div className="container text-center text-white">
+                    <div className="container text-center">
                         <h1 className="display-4">Welcome to Gym Management</h1>
                         <p className="lead">Grow your business with us! Manage your gym, bookings, and customers effortlessly.</p>
                         <div className="mt-4">

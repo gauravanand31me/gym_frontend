@@ -8,8 +8,8 @@
 .hero-section {
   background: linear-gradient(
           to right,
-          rgba(0, 0, 0, 0.6),
-          rgba(0, 0, 0, 0.6)
+          rgba(0, 0, 0, 0.7),
+          rgba(0, 0, 0, 0.7)
       ),
       url('../img/dumbbells-floor-gym-ai-generative.jpg');
   background-size: cover;
@@ -25,6 +25,7 @@
   padding: 60px;
   border-radius: 15px;
   background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px); /* Add blur effect for better readability */
 }
 
 .hero-section h1 {
@@ -49,7 +50,7 @@
 
 /* Marketing Section */
 .marketing-section {
-  background: #333;
+  background: #222;
   color: #fff; /* Set text color to white in the marketing section */
 }
 
@@ -83,7 +84,7 @@
 
 .benefit-card .card-text {
   font-size: 1rem;
-  color: #fff; /* Set card text color to white */
+  color: #333; /* Set card text color to dark for readability */
 }
 
 /* General Styles */
@@ -116,4 +117,19 @@
 
 .shadow-lg {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .hero-section h1 {
+    font-size: 2.5rem;
+  }
+
+  .hero-section p {
+    font-size: 1rem;
+  }
+
+  .marketing-section h2 {
+    font-size: 2rem;
+  }
 }

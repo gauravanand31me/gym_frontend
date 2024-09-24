@@ -1,102 +1,83 @@
-/* Importing a Google Font */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
-
 .slot-container {
-    max-width: 900px;
-    margin: auto;
     padding: 20px;
-    margin-top: 100px;
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    font-family: 'Roboto', sans-serif;
+    background-color: #f9f9f9;
+    min-height: 100vh;
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.slot-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
 }
 
 .slot-table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 60px; /* Extra space for the form */
 }
 
 .slot-table th,
 .slot-table td {
-    padding: 12px 15px;
-    border: 1px solid #e0e0e0;
+    border: 1px solid #ddd;
+    padding: 12px;
     text-align: left;
 }
 
 .slot-table th {
     background-color: #007bff;
     color: white;
-    font-size: 1rem;
-    font-weight: 500;
-}
-
-.slot-table tr:nth-child(even) {
-    background-color: #f9f9f9;
 }
 
 .slot-table tr:hover {
     background-color: #f1f1f1;
 }
 
-button {
+.add-slot-form {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.form-fields {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+input[type="time"],
+input[type="number"] {
+    width: 23%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.add-button,
+.delete-buttons {
     background-color: #007bff;
     color: white;
     border: none;
     padding: 10px 15px;
     cursor: pointer;
     border-radius: 5px;
-    margin: 5px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    font-weight: 500;
+    transition: background-color 0.3s ease;
 }
 
-button:hover {
+.add-button:hover,
+.delete-buttons:hover {
     background-color: #0056b3;
-    transform: scale(1.05);
-}
-
-input[type="time"],
-input[type="text"],
-input[type="number"] {
-    padding: 12px;
-    margin: 5px 0;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    width: calc(100% - 24px); /* Adjust width for better alignment */
-    font-size: 1rem;
-}
-
-.add-slot-form {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: #f8f9fa;
-    padding: 20px;
-    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    z-index: 1000; /* Make sure it stays on top */
-    border-top: 1px solid #e0e0e0;
-}
-
-.add-slot-form h2 {
-    margin: 0;
-    font-size: 1.5rem;
-    color: #007bff;
 }
 
 .no-slot {
     text-align: center;
     font-size: 1.2rem;
-    color: #6c757d;
-    margin-bottom: 20px;
-}
-
-.no-slot i {
-    margin-right: 10px;
-    color: #ff6f61;
+    color: #999;
 }
