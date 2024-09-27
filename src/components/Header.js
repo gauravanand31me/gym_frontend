@@ -5,6 +5,7 @@ import { faBell, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate, Link } from 'react-router-dom'; // Import Link from react-router-dom
 import Cookies from 'js-cookie';
 import axios from 'axios';
+import logo from "../img/logo-removebg-preview.png";
 
 const Header = () => {
   const notificationCount = 2;
@@ -56,7 +57,7 @@ const Header = () => {
       <div className="container d-flex justify-content-between align-items-center">
         <div className="logo-container">
           <Link className="fancy-link" to="/">
-            <h1 className="fitzoo-logo">Fitzoo</h1>
+            <img src={logo} height="50" width="100" />
           </Link>
         </div>
         <nav className="header-nav">

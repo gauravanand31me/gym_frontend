@@ -4,6 +4,12 @@
   color: #fff; /* Change text color to white */
 }
 
+
+button.card-button.btn.btn-primary {
+  background-color: #688c46;
+}
+
+
 /* Hero Section */
 .hero-section {
   background: linear-gradient(

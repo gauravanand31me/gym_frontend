@@ -6,6 +6,9 @@ import axios from 'axios'; // Import axios for making HTTP requests
 import { useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
 import { ToastContainer, toast } from 'react-toastify'; // Import ToastContainer and toast from react-toastify
 import 'react-toastify/dist/ReactToastify.css'; // Import react-toastify CSS
+import MapComponent from '../components/MapComponent'; // Import the MapComponent
+import Modal from 'react-bootstrap/Modal'; // Import Bootstrap modal
+import Button from 'react-bootstrap/Button'; // Import Bootstrap button
 
 const GymRegistration = () => {
   const [formData, setFormData] = useState({
@@ -16,36 +19,28 @@ const GymRegistration = () => {
     gymLocation: {
       addressLine1: '',
       addressLine2: '',
-      city: '', // Changed to input field
+      city: '', 
       state: '',
       pinCode: '',
-      country: 'India', // Set default country to India
+      country: 'India', 
     },
-    equipmentDetails: [{ name: '', quantity: '' }],
-    slots: [{ capacity: '', price: '', startTime: '', timePeriod: '' }],
-    subscription: { daily: '', monthly: '', yearly: '' },
+    latitude: 0,
+    longitude: 0,
   });
 
+  const [showMapModal, setShowMapModal] = useState(false); // State for controlling map modal
   const states = ['Andhra Pradesh', 'Maharashtra', 'Tamil Nadu', 'West Bengal', 'Karnataka']; // Add Indian states
-  const navigate = useNavigate(); // Initialize navigate for navigation
+  const navigate = useNavigate(); 
 
-  // Get device latitude and longitude
-  useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        setFormData((prevData) => ({
-          ...prevData,
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-        }));
-      }, (error) => {
-        console.error('Geolocation error:', error);
-        toast.error('Unable to retrieve location.'); // Show error if location retrieval fails
-      });
-    } else {
-      toast.error('Geolocation is not supported by this browser.'); // Show error if geolocation is not supported
-    }
-  }, []);
+  // Open map modal when "Set Location" is clicked
+  const handleShowMapModal = () => setShowMapModal(true);
+  const handleCloseMapModal = () => setShowMapModal(false);
+
+  // Get the location selected from the map
+  const handleLocationSelect = ({ lat, lng }) => {
+    setFormData({ ...formData, latitude: lat, longitude: lng });
+    handleCloseMapModal(); // Close modal after selecting the location
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -73,27 +68,27 @@ const GymRegistration = () => {
       city: gymLocation.city,
       state: gymLocation.state,
       country: gymLocation.country,
-      latitude: latitude || 0,  // Use the retrieved latitude
-      longitude: longitude || 0, // Use the retrieved longitude
+      latitude,
+      longitude,
     };
 
     try {
       const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/register`, registrationData);
       
       if (response.status === 200) {
-        toast.success(response.data.message); // Show success message
+        toast.success(response.data.message);
         setTimeout(() => {
-          navigate('/login'); // Redirect to login after 1 second
+          navigate('/login');
         }, 1000);
       } else {
-        toast.error(response.data.error); // Show error message
+        toast.error(response.data.error);
         setTimeout(() => {
-          navigate('/login'); // Redirect to login after 1 second
+          navigate('/login');
         }, 2000);
       }
     } catch (error) {
       console.error('Gym registration error:', error);
-      toast.error('An error occurred while registering the gym.'); // Show generic error message
+      toast.error('An error occurred while registering the gym.');
     }
   };
 
@@ -164,16 +159,6 @@ const GymRegistration = () => {
               />
             </div>
             <div className="form-group mb-3">
-              <label>Address Line 2</label>
-              <input
-                type="text"
-                className="form-control"
-                name="addressLine2"
-                value={formData.gymLocation.addressLine2}
-                onChange={handleGymLocationChange}
-              />
-            </div>
-            <div className="form-group mb-3">
               <label>Pin Code</label>
               <input
                 type="text"
@@ -213,19 +198,9 @@ const GymRegistration = () => {
               </select>
             </div>
 
-            <div className="form-group mb-3">
-              <label>Country</label>
-              <select
-                className="form-control"
-                name="country"
-                value={formData.gymLocation.country}
-                onChange={handleGymLocationChange}
-                required
-              >
-                <option value="">Select Country</option>
-                <option value="India">India</option> 
-              </select>
-            </div>
+            <button type="button" className="btn btn-secondary mb-3" onClick={handleShowMapModal}>
+              Set Location on Map
+            </button>
 
             <button type="submit" className="btn btn-primary" onClick={handleSubmit}>
               Register Gym
@@ -233,6 +208,22 @@ const GymRegistration = () => {
           </div>
         </div>
       </div>
+
+      {/* Map Modal */}
+      <Modal show={showMapModal} onHide={handleCloseMapModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Select Gym Location</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <MapComponent onLocationSelect={handleLocationSelect} pinCode={formData.gymLocation.pinCode} />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseMapModal}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
       <ToastContainer /> {/* Add ToastContainer to display toasts */}
     </div>
   );

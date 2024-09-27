@@ -75,7 +75,6 @@ const MySubscriptionPage = () => {
       <Header />
       <h1 className="subscription-header">My Subscription</h1>
    
-    
         <div className="subscription-details">
           {editing ? (
             <form onSubmit={handleSubmit} className="subscription-form">
@@ -119,15 +118,15 @@ const MySubscriptionPage = () => {
             <>
               <div className="subscription-price">
                 <h2>Daily Price:</h2>
-                <p>${subscription?.daily}</p>
+                <p>INR {subscription?.daily}</p>
               </div>
               <div className="subscription-price">
                 <h2>Monthly Price:</h2>
-                <p>${subscription?.monthly}</p>
+                <p>INR {subscription?.monthly}</p>
               </div>
               <div className="subscription-price">
                 <h2>Yearly Price:</h2>
-                <p>${subscription?.yearly}</p>
+                <p>INR {subscription?.yearly}</p>
               </div>
               <button onClick={handleEditClick} className="edit-button">Edit Prices</button>
             </>

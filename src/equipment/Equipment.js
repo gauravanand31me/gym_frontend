@@ -77,35 +77,8 @@ const EquipmentPage = () => {
         <div className="equipment-container">
             <Header />
             <div className="equipment-content">
-                <h1><i className="fas fa-dumbbell"></i> Equipment Management</h1>
-                <div className="add-equipment-form">
-                    <h2><i className="fas fa-plus-circle"></i> Add New Equipment</h2>
-                    <EquipmentSelection onSelect={setSelectedEquipment} />
-                    {selectedEquipment && (
-                        <div className="selected-equipment">
-                            <div
-                                className="selected-icon"
-                                dangerouslySetInnerHTML={{ __html: selectedEquipment.icon_svg }}
-                            />
-                            <span>{selectedEquipment.name}</span>
-                        </div>
-                    )}
-                    <input
-                        type="number"
-                        placeholder="Quantity"
-                        value={quantity}
-                        onChange={(e) => setQuantity(e.target.value)}
-                    />
-                    <button
-                        className="btn btn-add"
-                        onClick={handleAddEquipment}
-                        disabled={!selectedEquipment || !quantity}
-                    >
-                        <i className="fas fa-plus-circle"></i> Add Equipment
-                    </button>
-                </div>
-                
-                {equipmentList.length === 0 ? (
+            <h1><i className="fas fa-dumbbell"></i> Equipment Management</h1>
+            {equipmentList.length === 0 ? (
                     <div className="no-equipment">
                         <i className="fas fa-exclamation-circle"></i> No equipment available. Please add some equipment below.
                     </div>
@@ -178,6 +151,36 @@ const EquipmentPage = () => {
                         </tbody>
                     </table>
                 )}
+                
+
+                
+                <div className="add-equipment-form">
+                    <h2><i className="fas fa-plus-circle"></i> Add New Equipment</h2>
+                    <EquipmentSelection onSelect={setSelectedEquipment} />
+                    {selectedEquipment && (
+                        <div className="selected-equipment">
+                            <div
+                                className="selected-icon"
+                                dangerouslySetInnerHTML={{ __html: selectedEquipment.icon_svg }}
+                            />
+                            <span>{selectedEquipment.name}</span>
+                        </div>
+                    )}
+                    <input
+                        type="number"
+                        placeholder="Quantity"
+                        value={quantity}
+                        onChange={(e) => setQuantity(e.target.value)}
+                    />
+                    <button
+                        className="btn btn-add"
+                        onClick={handleAddEquipment}
+                        disabled={!selectedEquipment || !quantity}
+                    >
+                        <i className="fas fa-plus-circle"></i> Add Equipment
+                    </button>
+                </div>
+                
                 
             </div>
         </div>
