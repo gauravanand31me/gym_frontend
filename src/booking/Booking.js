@@ -3,76 +3,58 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from '../components/Header';
 import axios from 'axios';
 
-const BookingPage = ({ slotsData }) => {
-  // Sample data for demonstration purposes
-  const defaultSlotsData = [
-    {
-      slotId: 1,
-      slotTime: '06:00 AM - 08:00 AM',
-      capacity: 10,
-      bookings: [
-        { bookingId: 101, userName: 'John Doe', price: 20, paid: true },
-        { bookingId: 102, userName: 'Jane Smith', price: 20, paid: false },
-      ],
-    },
-    {
-      slotId: 2,
-      slotTime: '08:00 AM - 10:00 AM',
-      capacity: 12,
-      bookings: [
-        { bookingId: 103, userName: 'Michael Johnson', price: 25, paid: true },
-        { bookingId: 104, userName: 'Emily White', price: 25, paid: true },
-      ],
-    },
-    {
-      slotId: 3,
-      slotTime: '10:00 AM - 12:00 PM',
-      capacity: 8,
-      bookings: [
-        { bookingId: 105, userName: 'Sophia Brown', price: 30, paid: false },
-        { bookingId: 106, userName: 'Liam Wilson', price: 30, paid: true },
-      ],
-    },
-  ];
-
-  const slots = slotsData || defaultSlotsData;
-  const [selectedSlot, setSelectedSlot] = useState('all');
-  const [bookings, setBookings] = useState(slots.flatMap(slot => slot.bookings));
-
+const BookingPage = () => {
+  const [bookings, setBookings] = useState([]);
+  const [filteredBookings, setFilteredBookings] = useState([]);
+  const [selectedDate, setSelectedDate] = useState('');
+  const [selectedSlotTime, setSelectedSlotTime] = useState('all');
 
   const getAllBooking = async () => {
- 
-      try {
-          const allBooking = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/booking`,  {
-              headers: { 'auth': document.cookie.replace(/(?:(?:^|.*;\s*)auth\s*=\s*([^;]*).*$)|^.*$/, "$1") }
-          });
-          console.log("allBooking", allBooking);
-      } catch (error) {
-          console.error('Error updating equipment:', error);
-      }
-
-  }
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/booking`, {
+        headers: { 'auth': document.cookie.replace(/(?:(?:^|.*;\s*)auth\s*=\s*([^;]*).*$)|^.*$/, "$1") }
+      });
+      setBookings(response.data.Booking);
+      setFilteredBookings(response.data.Booking); // Set the initial filtered bookings
+    } catch (error) {
+      console.error('Error fetching bookings:', error);
+    }
+  };
 
   useEffect(() => {
     getAllBooking();
   }, []);
 
-  // Function to filter bookings based on selected slot
-  const getFilteredBookings = () => {
-    if (selectedSlot === 'all') {
-      return slots.flatMap((slot) => slot.bookings.map((booking) => ({ ...booking, slotTime: slot.slotTime })));
-    } else {
-      const slot = slots.find((slot) => slot.slotId === parseInt(selectedSlot));
-      return slot ? slot.bookings.map((booking) => ({ ...booking, slotTime: slot.slotTime })) : [];
-    }
-  };
+  useEffect(() => {
+    filterBookings();
+  }, [selectedDate, selectedSlotTime, bookings]);
 
-  const filteredBookings = getFilteredBookings();
+  // Function to filter bookings based on selected date and slot time
+  const filterBookings = () => {
+    let filtered = bookings;
+
+    if (selectedDate) {
+      filtered = filtered.filter(booking => booking.bookingDate === selectedDate);
+    }
+
+    if (selectedSlotTime !== 'all') {
+      filtered = filtered.filter(booking => booking.slotStartTime === selectedSlotTime);
+    }
+
+    setFilteredBookings(filtered);
+  };
 
   // Cancel booking logic
   const handleCancelBooking = (bookingId) => {
     const updatedBookings = bookings.filter(booking => booking.bookingId !== bookingId);
     setBookings(updatedBookings);
+    setFilteredBookings(updatedBookings); // Update filtered bookings
+  };
+
+  // Get unique slot times from bookings
+  const getUniqueSlotTimes = () => {
+    const uniqueSlotTimes = [...new Set(bookings.map(booking => booking.slotStartTime))];
+    return uniqueSlotTimes;
   };
 
   return (
@@ -87,17 +69,28 @@ const BookingPage = ({ slotsData }) => {
             <h5 className="card-title">View Bookings</h5>
 
             <div className="mb-3">
+              <label htmlFor="dateSelect" className="form-label">Select Booking Date</label>
+              <input
+                type="date"
+                className="form-control"
+                id="dateSelect"
+                value={selectedDate}
+                onChange={(e) => setSelectedDate(e.target.value)}
+              />
+            </div>
+
+            <div className="mb-3">
               <label htmlFor="slotSelect" className="form-label">Select Slot Timing</label>
               <select
                 className="form-select"
                 id="slotSelect"
-                value={selectedSlot}
-                onChange={(e) => setSelectedSlot(e.target.value)}
+                value={selectedSlotTime}
+                onChange={(e) => setSelectedSlotTime(e.target.value)}
               >
                 <option value="all">All Slots</option>
-                {slots.map((slot) => (
-                  <option key={slot.slotId} value={slot.slotId}>
-                    {slot.slotTime}
+                {getUniqueSlotTimes().map((slotTime, index) => (
+                  <option key={index} value={slotTime}>
+                    {slotTime}
                   </option>
                 ))}
               </select>
@@ -108,41 +101,42 @@ const BookingPage = ({ slotsData }) => {
                 <thead className="table-dark">
                   <tr>
                     <th scope="col">Booking ID</th>
-                    <th scope="col">User Name</th>
-                    <th scope="col">Slot Timing</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Paid</th>
-                    <th scope="col">Cancel Booking</th>
+                    <th scope="col">User Full Name</th>
+                    <th scope="col">Booking Date</th>
+                    <th scope="col">Visited</th>
+                    <th scope="col">Gym Name</th>
+                    <th scope="col">Gym Rating</th>
+                    <th scope="col">Slot Start Time</th>
+                    <th scope="col">Subscription Price</th>
+                    <th scope="col">Created At</th>
+                    <th scope="col">Invited Buddy Count</th>
                   </tr>
                 </thead>
                 <tbody>
                   {filteredBookings.map((booking, index) => (
                     <tr key={index}>
                       <th scope="row">{booking.bookingId}</th>
-                      <td>{booking.userName}</td>
-                      <td>{booking.slotTime}</td>
-                      <td>${booking.price}</td>
+                      <td>{booking.userFullName}</td>
+                      <td>{new Date(booking.bookingDate).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</td>
                       <td>
-                        {booking.paid ? (
-                          <span className="badge bg-success">Paid</span>
+                        {booking.visited ? (
+                          <span className="badge bg-success">Visited</span>
                         ) : (
-                          <span className="badge bg-danger">Not Paid</span>
+                          <span className="badge bg-danger">Not Visited</span>
                         )}
                       </td>
-                      <td>
-                        <button
-                          className="btn btn-danger btn-sm"
-                          onClick={() => handleCancelBooking(booking.bookingId)}
-                        >
-                          Cancel
-                        </button>
-                      </td>
+                      <td>{booking.gymName}</td>
+                      <td>{booking.gymRating}</td>
+                      <td>{new Date(`1970-01-01T${booking.slotStartTime}:00`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</td>
+                      <td>INR {booking.subscriptionPrice}</td>
+                      <td>{new Date(booking.create).toLocaleString()}</td>
+                      <td>{booking.invitedBuddyCount}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             ) : (
-              <p className="text-center">No bookings found for this slot.</p>
+              <p className="text-center">No bookings found for the selected criteria.</p>
             )}
           </div>
         </div>

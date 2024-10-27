@@ -70,12 +70,7 @@ const Header = () => {
               <Link to="/gallery" className="nav-link">My Gallery</Link>
               <Link to="/subscription" className="nav-link">My Subscription</Link>
               <Link to="/booking" className="nav-link">My Bookings</Link>
-              <div className="notification-container" onClick={handleNotificationClick}>
-                <FontAwesomeIcon icon={faBell} className="notification-icon" />
-                {notificationCount > 0 && (
-                  <span className="notification-badge">{notificationCount}</span>
-                )}
-              </div>
+              
               <button className="logout-button" onClick={handleLogout}>
                 <FontAwesomeIcon icon={faSignOutAlt} />
                 <span>Logout</span>

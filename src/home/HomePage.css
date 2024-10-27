@@ -1,159 +1,122 @@
 /* HomePage Styles */
 .homepage {
   font-family: 'Poppins', sans-serif;
-  color: #fff; /* Change text color to white */
+  color: #333;
 }
-
-
-button.card-button.btn.btn-primary {
-  background-color: #688c46;
-}
-
 
 /* Hero Section */
 .hero-section {
-  background: linear-gradient(
-          to right,
-          rgba(0, 0, 0, 0.7),
-          rgba(0, 0, 0, 0.7)
-      ),
-      url('../img/dumbbells-floor-gym-ai-generative.jpg');
-  background-size: cover;
-  background-position: center;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #fff; /* Ensure text color is white in the hero section */
+  background: url("../img/hero-background.jpg") no-repeat center center/cover;
+  height: 80vh; /* Increased height for more impact */
+  position: relative;
 }
 
 .hero-overlay {
-  padding: 60px;
-  border-radius: 15px;
-  background-color: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(10px); /* Add blur effect for better readability */
+  background: rgba(0, 0, 0, 0.6); /* Darker overlay for better text contrast */
+  height: 100%;
+  padding: 60px 20px; /* More padding for a spacious feel */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center the content vertically */
 }
 
-.hero-section h1 {
-  font-size: 3rem;
-  margin-bottom: 20px;
+.lead {
+  color: #fff;
+} 
+
+.para-success {
+  color: #fff;
 }
 
-.hero-section p {
-  font-size: 1.2rem;
-  margin-bottom: 30px;
+.hero-overlay h1 {
+  font-family: 'Roboto', sans-serif;
+  font-size: 3rem; /* Increased font size */
+  margin-bottom: 20px; /* Spacing below heading */
 }
 
-.hero-section .btn-primary {
-  background-color: #ff5722;
-  border-color: #ff5722;
+.hero-overlay p {
+  font-size: 1.25rem; /* Slightly larger text */
 }
 
-.hero-section .btn-outline-light:hover {
-  background-color: #ff5722;
+/* Arrow Down Icon */
+.arrow-down {
   color: #fff;
 }
 
 /* Marketing Section */
 .marketing-section {
-  background: #222;
-  color: #fff; /* Set text color to white in the marketing section */
+  background-color: #343a40; /* Dark background for contrast */
+  padding: 50px 20px; /* Added padding */
 }
 
 .marketing-section h2 {
-  font-size: 2.5rem;
+  font-family: 'Roboto', sans-serif;
+  font-size: 2.5rem; /* Increased font size */
+  color: #f8f9fa; /* Light text color for readability */
 }
 
-.marketing-section .btn-warning {
-  background-color: #f1c40f;
-  border-color: #f1c40f;
-}
-
-.marketing-section .btn-warning:hover {
-  background-color: #d4ac0d;
-  border-color: #d4ac0d;
+/* Why Register with Us Section */
+h3.text-success {
+  font-weight: 600; /* Bolder font for headings */
+  margin-top: 20px; /* Spacing above heading */
 }
 
 /* Card Styles */
 .benefit-card {
-  transition: transform 0.3s;
+  border-radius: 10px;
+  transition: transform 0.3s, box-shadow 0.3s; /* Added shadow transition */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
 
 .benefit-card:hover {
-  transform: translateY(-10px);
+  transform: translateY(-5px); /* Lift effect on hover */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
 }
 
-.benefit-card .card-title {
-  font-size: 1.5rem;
-  color: #fff; /* Set card title text color to white */
+/* Benefits Section */
+.bg-light {
+  padding: 50px 0; /* More padding for a spacious feel */
 }
 
-.benefit-card .card-text {
-  font-size: 1rem;
-  color: #333; /* Set card text color to dark for readability */
+/* Download App Section */
+.download-app-section {
+  background-color: #f8f9fa; /* Light background for contrast */
+  padding: 40px 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Shadow for depth */
 }
 
-/* General Styles */
-.container {
-  max-width: 1200px;
+.app-icons {
+  display: flex;
+  justify-content: center;
+  gap: 30px; /* More space between icons */
 }
 
-.text-primary {
-  color: #ff5722 !important;
+.app-icon {
+  width: 160px; /* Slightly larger icons for visibility */
+  transition: transform 0.3s, box-shadow 0.3s; /* Transition for effects */
 }
 
-.text-warning {
-  color: #f1c40f !important;
-}
-
-.btn-primary:hover {
-  background-color: #e64a19;
-  border-color: #e64a19;
-}
-
-.btn-outline-light {
-  color: #fff;
-  border-color: #fff;
-}
-
-.btn-outline-light:hover {
-  background-color: #fff;
-  color: #333;
-}
-
-.shadow-lg {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+.app-icon:hover {
+  transform: scale(1.1); /* Slightly larger zoom effect on hover */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Shadow effect on hover */
 }
 
 /* Media Queries for Responsiveness */
 @media (max-width: 768px) {
-  .hero-section h1 {
-    font-size: 2.5rem;
-  }
-
-  .hero-section p {
-    font-size: 1rem;
+  .hero-overlay h1 {
+    font-size: 2.5rem; /* Adjust for smaller screens */
   }
 
   .marketing-section h2 {
-    font-size: 2rem;
+    font-size: 2rem; /* Adjust for smaller screens */
+  }
+
+  .app-icon {
+    width: 130px; /* Smaller size for mobile */
+  }
+
+  .hero-overlay p {
+    font-size: 1rem; /* Smaller text on mobile */
   }
 }
-
-.arrow-down i {
-  color: white;
-  animation: bounce 2s infinite;
-}
-
-@keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
-      transform: translateY(0);
-  }
-  40% {
-      transform: translateY(-20px);
-  }
-  60% {
-      transform: translateY(-10px);
-  }
-}
-
