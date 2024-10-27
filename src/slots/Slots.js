@@ -33,7 +33,7 @@ const SlotPage = () => {
         try {
             const formattedSlot = {
                 ...newSlot,
-                startTime: newSlot.startTime.length === 5 ? `${newSlot.startTime}:00` : newSlot.startTime
+                startTime: newSlot.startTime // This is now formatted by selecting from the dropdown
             };
             await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/slots`, formattedSlot, {
                 headers: { 'auth': document.cookie.replace(/(?:(?:^|.*;\s*)auth\s*=\s*([^;]*).*$)|^.*$/, "$1") }
@@ -56,6 +56,12 @@ const SlotPage = () => {
         }
     };
 
+    // Define available hourly slots
+    const hourlySlots = Array.from({ length: 24 }, (_, i) => {
+        const hour = i.toString().padStart(2, '0');
+        return `${hour}:00`;
+    });
+
     return (
         <div className="slot-container">
             <Header />
@@ -68,12 +74,15 @@ const SlotPage = () => {
                     <FontAwesomeIcon icon={faPlusCircle} /> Add New Slot
                 </h2>
                 <div className="form-fields">
-                    <input
-                        type="time"
-                        placeholder="Start Time"
+                    <select
                         value={newSlot.startTime}
                         onChange={(e) => setNewSlot({ ...newSlot, startTime: e.target.value })}
-                    />
+                    >
+                        <option value="" disabled>Select Start Time</option>
+                        {hourlySlots.map((hour) => (
+                            <option key={hour} value={hour}>{hour}</option>
+                        ))}
+                    </select>
                     <input
                         type="number"
                         placeholder="Capacity"
@@ -98,7 +107,7 @@ const SlotPage = () => {
                 </button>
             </div>
             <div className="slot-card">
-                {slotList.length === 0 ? (
+                {slotList?.length === 0 ? (
                     <div className="no-slot">
                         <i className="fas fa-exclamation-circle"></i> No slots available. Please add some slots below.
                     </div>
@@ -107,19 +116,25 @@ const SlotPage = () => {
                         <thead>
                             <tr>
                                 <th>Start Time</th>
-                                <th>Capacity</th>
+                                {/* <th>Capacity</th>*/}
                                 <th>Price</th>
-                                <th>Time Period (hours)</th>
+                                 {/*<th>Time Period (hours)</th> */}
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {slotList.map(slot => (
+                            {slotList?.map(slot => (
                                 <tr key={slot.id}>
                                     <td>{slot.startTime}</td>
-                                    <td>{slot.capacity}</td>
-                                    <td>${slot.price}</td>
-                                    <td>{slot.timePeriod}</td>
+                                    {/* <td>
+                                        <span data-tag="slot-capacity">{slot.capacity}</span>
+                                    </td> */}
+                                    <td>
+                                        <span data-tag="slot-price">INR {slot.price}</span>
+                                    </td>
+                                    { /* <td>
+                                        <span data-tag="slot-time-period">{slot.timePeriod}</span>
+                                    </td> */}
                                     <td>
                                         <button className="delete-buttons" onClick={() => handleDeleteSlot(slot.id)}>
                                             <FontAwesomeIcon icon={faTrash} /> Delete
@@ -131,7 +146,6 @@ const SlotPage = () => {
                     </table>
                 )}
             </div>
-
         </div>
     );
 };

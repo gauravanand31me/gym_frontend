@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from '../components/Header';
+import axios from 'axios';
 
 const BookingPage = ({ slotsData }) => {
   // Sample data for demonstration purposes
@@ -37,6 +38,24 @@ const BookingPage = ({ slotsData }) => {
   const slots = slotsData || defaultSlotsData;
   const [selectedSlot, setSelectedSlot] = useState('all');
   const [bookings, setBookings] = useState(slots.flatMap(slot => slot.bookings));
+
+
+  const getAllBooking = async () => {
+ 
+      try {
+          const allBooking = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/booking`,  {
+              headers: { 'auth': document.cookie.replace(/(?:(?:^|.*;\s*)auth\s*=\s*([^;]*).*$)|^.*$/, "$1") }
+          });
+          console.log("allBooking", allBooking);
+      } catch (error) {
+          console.error('Error updating equipment:', error);
+      }
+
+  }
+
+  useEffect(() => {
+    getAllBooking();
+  }, []);
 
   // Function to filter bookings based on selected slot
   const getFilteredBookings = () => {

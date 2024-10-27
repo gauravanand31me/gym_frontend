@@ -81,3 +81,19 @@ input[type="number"] {
     font-size: 1.2rem;
     color: #999;
 }
+
+[data-tag="slot-capacity"] {
+    color: #333;
+    font-weight: bold;
+}
+
+[data-tag="slot-price"] {
+    color: #28a745;
+    font-weight: bold;
+}
+
+[data-tag="slot-time-period"] {
+    color: #555;
+    font-style: italic;
+}
+

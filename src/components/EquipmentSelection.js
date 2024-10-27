@@ -26,7 +26,7 @@ const EquipmentSelection = ({ onSelect }) => {
         onSelect(equipment);
     };
 
-    const filteredEquipment = equipmentOptions.filter(equipment =>
+    const filteredEquipment = equipmentOptions?.filter(equipment =>
         equipment.equipment_name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 

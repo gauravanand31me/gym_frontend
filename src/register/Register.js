@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './Register.css'; // Import CSS for custom styles
+import './Register.css';
 import Header from '../components/Header';
-import axios from 'axios'; // Import axios for making HTTP requests
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
-import { ToastContainer, toast } from 'react-toastify'; // Import ToastContainer and toast from react-toastify
-import 'react-toastify/dist/ReactToastify.css'; // Import react-toastify CSS
-import MapComponent from '../components/MapComponent'; // Import the MapComponent
-import Modal from 'react-bootstrap/Modal'; // Import Bootstrap modal
-import Button from 'react-bootstrap/Button'; // Import Bootstrap button
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import MapComponent from '../components/MapComponent';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 
 const GymRegistration = () => {
   const [formData, setFormData] = useState({
@@ -19,27 +19,25 @@ const GymRegistration = () => {
     gymLocation: {
       addressLine1: '',
       addressLine2: '',
-      city: '', 
+      city: '',
       state: '',
       pinCode: '',
-      country: 'India', 
+      country: 'India',
     },
     latitude: 0,
     longitude: 0,
   });
 
-  const [showMapModal, setShowMapModal] = useState(false); // State for controlling map modal
-  const states = ['Andhra Pradesh', 'Maharashtra', 'Tamil Nadu', 'West Bengal', 'Karnataka']; // Add Indian states
-  const navigate = useNavigate(); 
+  const [showMapModal, setShowMapModal] = useState(false);
+  const states = ['Andhra Pradesh', 'Maharashtra', 'Tamil Nadu', 'West Bengal', 'Karnataka'];
+  const navigate = useNavigate();
 
-  // Open map modal when "Set Location" is clicked
   const handleShowMapModal = () => setShowMapModal(true);
   const handleCloseMapModal = () => setShowMapModal(false);
 
-  // Get the location selected from the map
   const handleLocationSelect = ({ lat, lng }) => {
     setFormData({ ...formData, latitude: lat, longitude: lng });
-    handleCloseMapModal(); // Close modal after selecting the location
+    handleCloseMapModal();
   };
 
   const handleInputChange = (e) => {
@@ -50,6 +48,46 @@ const GymRegistration = () => {
   const handleGymLocationChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, gymLocation: { ...formData.gymLocation, [name]: value } });
+  };
+
+  const handleUseCurrentLocation = async () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const { latitude, longitude } = position.coords;
+          setFormData({ ...formData, latitude, longitude });
+          try {
+            // Fetch city, state, and pincode from a reverse-geocoding API
+            const response = await axios.get(`https://nominatim.openstreetmap.org/reverse`, {
+              params: {
+                lat: latitude,
+                lon: longitude,
+                format: 'json',
+              },
+            });
+            const { address } = response.data;
+            const updatedLocation = {
+              city: address.city || address.town || address.village || '',
+              state: address.state || '',
+              pinCode: address.postcode || '',
+            };
+            setFormData((prevData) => ({
+              ...prevData,
+              gymLocation: { ...prevData.gymLocation, ...updatedLocation },
+            }));
+            toast.success('Location and pincode fetched successfully');
+          } catch (error) {
+            toast.error('Error fetching location details');
+          }
+        },
+        (error) => {
+          console.error('Error getting location:', error);
+          toast.error('Location access denied or unavailable.');
+        }
+      );
+    } else {
+      toast.error('Geolocation is not supported by this browser.');
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -74,7 +112,7 @@ const GymRegistration = () => {
 
     try {
       const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/register`, registrationData);
-      
+
       if (response.status === 200) {
         toast.success(response.data.message);
         setTimeout(() => {
@@ -200,6 +238,9 @@ const GymRegistration = () => {
 
             <button type="button" className="btn btn-secondary mb-3" onClick={handleShowMapModal}>
               Set Location on Map
+            </button>
+            <button type="button" className="btn btn-info mb-3 ms-2" onClick={handleUseCurrentLocation}>
+              Use Current Location
             </button>
 
             <button type="submit" className="btn btn-primary" onClick={handleSubmit}>

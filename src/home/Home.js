@@ -21,6 +21,11 @@ const HomePage = () => {
                 </div>
             </div>
 
+            {/* Arrow Down Icon */}
+            <div className="arrow-down text-center my-4">
+                <i className="fas fa-arrow-down fa-3x text-white"></i>
+            </div>
+
             {/* Marketing Section */}
             <div className="marketing-section bg-dark text-white py-5">
                 <div className="container text-center">

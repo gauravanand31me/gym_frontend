@@ -29,7 +29,6 @@ const EquipmentPage = () => {
 
     const handleAddEquipment = async () => {
         if (!selectedEquipment) return;
-        console.log("selectedEquipment", selectedEquipment);
         try {
             await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/equipment`, {
                 name: selectedEquipment.equipment_name,
@@ -77,8 +76,9 @@ const EquipmentPage = () => {
         <div className="equipment-container">
             <Header />
             <div className="equipment-content">
-            <h1><i className="fas fa-dumbbell"></i> Equipment Management</h1>
-            {equipmentList.length === 0 ? (
+                <h1><i className="fas fa-dumbbell"></i> Equipment Management</h1>
+
+                {equipmentList?.length === 0 ? (
                     <div className="no-equipment">
                         <i className="fas fa-exclamation-circle"></i> No equipment available. Please add some equipment below.
                     </div>
@@ -93,7 +93,7 @@ const EquipmentPage = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {equipmentList.map(equip => (
+                            {equipmentList && equipmentList?.map(equip => (
                                 <tr key={equip.id}>
                                     <td>
                                         <div
@@ -151,19 +151,16 @@ const EquipmentPage = () => {
                         </tbody>
                     </table>
                 )}
-                
 
-                
                 <div className="add-equipment-form">
                     <h2><i className="fas fa-plus-circle"></i> Add New Equipment</h2>
-                    <EquipmentSelection onSelect={setSelectedEquipment} />
                     {selectedEquipment && (
                         <div className="selected-equipment">
                             <div
                                 className="selected-icon"
                                 dangerouslySetInnerHTML={{ __html: selectedEquipment.icon_svg }}
                             />
-                            <span>{selectedEquipment.name}</span>
+                            <span>Select a new equipment from below, enter quantity and click Add Equipment</span>
                         </div>
                     )}
                     <input
@@ -179,9 +176,9 @@ const EquipmentPage = () => {
                     >
                         <i className="fas fa-plus-circle"></i> Add Equipment
                     </button>
+                    <EquipmentSelection onSelect={setSelectedEquipment} />
+                    
                 </div>
-                
-                
             </div>
         </div>
     );
