@@ -1,3 +1,54 @@
+/* General styles for Booking Page */
 .gym-display-container {
-    margin-top: 100px;
+    margin-top: 120px; /* Space above the container */
+    padding: 20px; /* Inner padding */
+    background-color: #f8f9fa; /* Light background color for contrast */
+    border-radius: 10px; /* Rounded corners */
+}
+.card-header {
+    margin-top: 50px; /* Adjust the value to create space */
+}
+/* Responsive design for mobile */
+@media (max-width: 768px) {
+    .gym-display-container {
+        margin-top: 80px; /* Less space on smaller screens */
+        padding: 15px; /* Adjust padding */
+    }
+
+    .card {
+        font-size: 0.9rem; /* Smaller font size for better fit */
+    }
+
+    .card-title {
+        font-size: 1.5rem; /* Adjust title size */
+    }
+
+    .form-label {
+        font-size: 0.9rem; /* Smaller labels */
+    }
+
+    .form-control,
+    .form-select {
+        font-size: 0.9rem; /* Smaller input/select sizes */
+    }
+
+    /* Table adjustments */
+    table {
+        width: 100%; /* Full width for tables */
+        overflow-x: auto; /* Enable horizontal scrolling if needed */
+        display: block; /* Block display for responsiveness */
+    }
+
+    th, td {
+        padding: 0.5rem; /* Reduce padding for cells */
+        font-size: 0.9rem; /* Smaller text in table */
+    }
+
+    /* Buttons and links */
+    .btn-login, .btn-register, .logout-button {
+        font-size: 0.9rem; /* Smaller button text */
+        padding: 0.5rem 0.75rem; /* Adjust padding */
+        width: 100%; /* Full width for buttons */
+        margin: 5px 0; /* Spacing between buttons */
+    }
 }

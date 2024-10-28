@@ -75,7 +75,7 @@ const EquipmentPage = () => {
     return (
         <div className="equipment-container">
             <Header />
-            <div className="equipment-content">
+            <div className="equipment-content" style={{ marginTop: '40px' }}>
                 <h1><i className="fas fa-dumbbell"></i> Equipment Management</h1>
 
                 {equipmentList?.length === 0 ? (

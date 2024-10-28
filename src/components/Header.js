@@ -1,16 +1,20 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate, Link } from 'react-router-dom'; // Import Link from react-router-dom
+import { faBell, faSignOutAlt, faBars } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate, Link, useLocation } from 'react-router-dom'; // Import useLocation
 import Cookies from 'js-cookie';
 import axios from 'axios';
-import logo from "../img/logo-removebg-preview.png";
+import logo from "../img/White on transparent.png";
 
 const Header = () => {
-  const notificationCount = 2;
+  const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
   const loginId = Cookies.get('auth');
+  
+  // Get current location to track active tab
+  const location = useLocation();
+  const [activeTab, setActiveTab] = useState(location.pathname); // Initialize with the current path
 
   useEffect(() => {
     const verifyToken = async () => {
@@ -38,13 +42,11 @@ const Header = () => {
 
     if (loginId) {
       verifyToken();
-    } else {
-      // navigate('/login');
     }
   }, [loginId, navigate]);
 
-  const handleNotificationClick = () => {
-    navigate('/notifications');
+  const handleMenuToggle = () => {
+    setMenuOpen(!menuOpen);
   };
 
   const handleLogout = () => {
@@ -52,25 +54,35 @@ const Header = () => {
     navigate('/login');
   };
 
+  // Function to handle tab clicks
+  const handleTabClick = (path) => {
+    setActiveTab(path); // Set the clicked tab as active
+    navigate(path); // Navigate to the clicked tab
+  };
+
   return (
     <header className="header">
       <div className="container d-flex justify-content-between align-items-center">
         <div className="logo-container">
           <Link className="fancy-link" to="/">
-            <img src={logo} height="50" width="100" />
+            <img src={logo} height="50" width="100" alt="Logo" />
           </Link>
         </div>
-        <nav className="header-nav">
+  
+        <button className="menu-button" onClick={handleMenuToggle}>
+          <FontAwesomeIcon icon={faBars} />
+        </button>
+  
+        {/* Desktop Navigation */}
+        <nav className="header-nav-desktop">
           {loginId ? (
             <>
-              {/* <Link to="/visual" className="nav-link">Home</Link> */}
-              <Link to="/profile" className="nav-link">Profile</Link>
-              <Link to="/equipment" className="nav-link">My Equipment</Link>
-              <Link to="/slots" className="nav-link">My Slots</Link>
-              <Link to="/gallery" className="nav-link">My Gallery</Link>
-              <Link to="/subscription" className="nav-link">My Subscription</Link>
-              <Link to="/booking" className="nav-link">My Bookings</Link>
-              
+              <Link to="/profile" className={`nav-link ${activeTab === '/profile' ? 'active' : ''}`} onClick={() => handleTabClick('/profile')}>Profile</Link>
+              <Link to="/equipment" className={`nav-link ${activeTab === '/equipment' ? 'active' : ''}`} onClick={() => handleTabClick('/equipment')}>My Equipment</Link>
+              <Link to="/slots" className={`nav-link ${activeTab === '/slots' ? 'active' : ''}`} onClick={() => handleTabClick('/slots')}>My Slots</Link>
+              <Link to="/gallery" className={`nav-link ${activeTab === '/gallery' ? 'active' : ''}`} onClick={() => handleTabClick('/gallery')}>My Gallery</Link>
+              <Link to="/subscription" className={`nav-link ${activeTab === '/subscription' ? 'active' : ''}`} onClick={() => handleTabClick('/subscription')}>My Subscription</Link>
+              <Link to="/booking" className={`nav-link ${activeTab === '/booking' ? 'active' : ''}`} onClick={() => handleTabClick('/booking')}>My Bookings</Link>
               <button className="logout-button" onClick={handleLogout}>
                 <FontAwesomeIcon icon={faSignOutAlt} />
                 <span>Logout</span>
@@ -78,11 +90,36 @@ const Header = () => {
             </>
           ) : (
             <>
-              <Link to="/login" className="nav-link btn-login">Login</Link>
-              <Link to="/register" className="nav-link btn-register">Register Gym</Link>
+              <Link to="/login" className={`nav-link btn-login ${activeTab === '/login' ? 'active' : ''}`} onClick={() => handleTabClick('/login')}>Login</Link>
+              <Link to="/register" className={`nav-link btn-register ${activeTab === '/register' ? 'active' : ''}`} onClick={() => handleTabClick('/register')}>Register Gym</Link>
             </>
           )}
         </nav>
+  
+        {/* Mobile Navigation */}
+        {menuOpen && (
+          <nav className="header-nav-mobile">
+            {loginId ? (
+              <>
+                <Link to="/profile" className={`nav-link ${activeTab === '/profile' ? 'active' : ''}`} onClick={() => handleTabClick('/profile')}>Profile</Link>
+                <Link to="/equipment" className={`nav-link ${activeTab === '/equipment' ? 'active' : ''}`} onClick={() => handleTabClick('/equipment')}>My Equipment</Link>
+                <Link to="/slots" className={`nav-link ${activeTab === '/slots' ? 'active' : ''}`} onClick={() => handleTabClick('/slots')}>My Slots</Link>
+                <Link to="/gallery" className={`nav-link ${activeTab === '/gallery' ? 'active' : ''}`} onClick={() => handleTabClick('/gallery')}>My Gallery</Link>
+                <Link to="/subscription" className={`nav-link ${activeTab === '/subscription' ? 'active' : ''}`} onClick={() => handleTabClick('/subscription')}>My Subscription</Link>
+                <Link to="/booking" className={`nav-link ${activeTab === '/booking' ? 'active' : ''}`} onClick={() => handleTabClick('/booking')}>My Bookings</Link>
+                <button className="logout-button" onClick={handleLogout}>
+                  <FontAwesomeIcon icon={faSignOutAlt} />
+                  <span>Logout</span>
+                </button>
+              </>
+            ) : (
+              <>
+                <Link to="/login" className={`nav-link btn-login ${activeTab === '/login' ? 'active' : ''}`} onClick={() => handleTabClick('/login')}>Login</Link>
+                <Link to="/register" className={`nav-link btn-register ${activeTab === '/register' ? 'active' : ''}`} onClick={() => handleTabClick('/register')}>Register Gym</Link>
+              </>
+            )}
+          </nav>
+        )}
       </div>
     </header>
   );

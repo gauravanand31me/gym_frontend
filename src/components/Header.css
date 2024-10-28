@@ -4,32 +4,66 @@
   top: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(135deg, #627a67 0%, #283e51 100%); /* Gradient background */
+  background: linear-gradient(135deg, #627a67 0%, #283e51 100%);
   color: #fff;
-  padding: 1rem 2rem; /* Increased padding for more spacious look */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Increased shadow effect */
+  padding: 0.5rem 1rem; /* Reduced padding for a smaller header */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   z-index: 1000;
-  transition: background 0.3s ease-in-out; /* Smooth background transition */
+  transition: background 0.3s ease-in-out;
+  height: 60px; /* Set a specific height for the header */
 }
-
+.menu-button {
+  display: none; /* Hide by default */
+}
 .header .container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1200px; /* Center the content */
+  max-width: 1200px;
   margin: 0 auto;
-}
+  height: 100%; /* Allow container to fill header height */
 
+}
+.header-nav-desktop {
+  display: flex; /* Show links by default on larger screens */
+}
 .logo-container {
   flex: 1; /* Adjust for spacing */
 }
-
-.header-nav {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem; /* Add gap between elements */
+.header-nav-mobile {
+  display: flex; /* Display links in dropdown on mobile */
+  flex-direction: column; /* Stack items vertically */
+  position: absolute; /* Position dropdown */
+  top: 100%; /* Position below the header */
+  left: 0;
+  background-color: #283e51; /* Same color as header */
+  z-index: 999; /* Make sure it overlays */
 }
 
+/* Hide mobile nav by default */
+.header-nav-mobile {
+  display: none; /* Hide mobile nav by default */
+}
+
+/* Show mobile nav when menu is open */
+.menu-button:focus + .header-nav-mobile,
+.header-nav-mobile {
+  display: flex; /* Show mobile nav when menu is open */
+}
+
+.header-nav {
+  display: none; /* Hide nav by default */
+  flex-direction: column; /* Stack items vertically */
+  width: 100%; /* Full width for dropdown */
+  position: absolute; /* Position dropdown */
+  top: 100%; /* Position below the header */
+  left: 0;
+  background-color: #283e51; /* Same color as header */
+  z-index: 999; /* Make sure it overlays */
+}
+.header-nav-desktop .nav-link {
+  margin: 0 15px; /* Horizontal spacing between links */
+}
 .header-nav .nav-link {
   color: #fff;
   font-size: 1rem; /* Increased font size */
@@ -153,28 +187,101 @@
 .logout-button span {
   margin-left: 5px;
 }
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .header-nav {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.75rem;
-  }
-
-  .header-nav .nav-link,
-  .header-nav .btn-login,
-  .header-nav .btn-register {
-    margin-left: 0;
-  }
+.header-nav-desktop .nav-link {
+  margin: 0 15px; /* Horizontal spacing between links */
+  color: #fff; /* Default link color */
+  text-decoration: none; /* Remove underline */
+  transition: background 0.3s ease-in-out, color 0.3s ease-in-out; /* Smooth transitions */
 }
 
-@media (max-width: 480px) {
-  .header {
-    padding: 0.5rem 1rem;
+.header-nav-desktop .nav-link.active {
+  color: #ffc107; /* White text for contrast */
+  font-weight: bold; /* Make active link bold */
+  border-radius: 5px; /* Optional: add rounded corners */
+}
+
+/* Additional hover effects for active links */
+
+.header-nav-mobile {
+  display: flex; /* Display links in dropdown on mobile */
+  flex-direction: column; /* Stack items vertically */
+  position: absolute; /* Position dropdown */
+  top: 100%; /* Position below the header */
+  left: 0;
+  background-color: #283e51; /* Same color as header */
+  z-index: 999; /* Make sure it overlays */
+}
+/* Responsive Design */
+@media (max-width: 768px) {
+
+  .header-nav-desktop {
+    display: none; /* Hide desktop nav on mobile */
+  }
+  .menu-button {
+    display: block; /* Show the menu button on mobile */
+  }
+  /* Mobile menu styles */
+  .header-nav-mobile {
+    display: none; /* Hide mobile nav by default */
+  }
+  .header-nav {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Create 3 items per row */
+    gap: 10px;
+    justify-items: center;
+  }
+  .header-nav-mobile {
+    display: flex; /* Show mobile nav when menu is open */
+    flex-direction: column; /* Stack items vertically */
+    position: absolute; /* Position dropdown */
+    top: 60px; /* Adjust this value to match header height */
+    left: 0;
+    right: 0; /* Extend to full width */
+    background-color: #283e51; /* Same color as header */
+    z-index: 999; /* Make sure it overlays */
+  }
+  .logo-container {
+      flex-basis: 100%;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 10px;
   }
 
-  .fancy-link {
-    font-size: 20px;
+  .container {
+      flex-direction: row;
+      align-items: center;
   }
+
+  .nav-link {
+      font-size: 1.2rem;
+      padding: 10px 0;
+  }
+
+  .btn-login, .btn-register {
+      font-size: 1.2rem;
+      width: 100%;
+      text-align: center;
+  }
+
+  .logout-button {
+      justify-content: center;
+      width: 100%;
+  }
+  .header-nav-desktop .nav-link {
+    margin: 0 15px; /* Horizontal spacing between links */
+  }
+  .header-nav-desktop .nav-link.active,
+.header-nav-mobile .nav-link.active {
+  background-color: rgba(255, 255, 255, 0.1); /* Light background for active link */
+  color: #ffc107; /* Color for the active link text */
+  font-weight: bold; /* Make active link bold */
+}
+
+/* Additional hover effects for active links */
+.header-nav-desktop .nav-link.active:hover,
+.header-nav-mobile .nav-link.active:hover {
+  background-color: rgba(255, 255, 255, 0.2); /* Slightly lighter on hover */
+}
+
+
 }
