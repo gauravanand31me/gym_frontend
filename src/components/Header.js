@@ -5,7 +5,7 @@ import { faBell, faSignOutAlt, faBars } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate, Link, useLocation } from 'react-router-dom'; // Import useLocation
 import Cookies from 'js-cookie';
 import axios from 'axios';
-import logo from "../img/White on transparent.png";
+import logo from "../img/logo3.png";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
