@@ -5,6 +5,7 @@ import './HomePage.css';
 import DumbellImage from "../img/dumbbells-floor-gym-ai-generative.jpg";
 import PlayStoreIcon from '../img/playstore.png';
 import AppStoreIcon from '../img/appstore.png';
+import Logo from '../img/logo3.png'; // Import your logo image here
 
 const HomePage = () => {
     return (
@@ -13,12 +14,17 @@ const HomePage = () => {
             <div className="hero-section">
                 <div className="hero-overlay d-flex align-items-center">
                     <div className="container text-center">
-                        <h1 className="display-4 text-light">Welcome to Gym Management</h1>
-                        <p className="lead text-light">Grow your business with us! Manage your gym, bookings, and customers effortlessly.</p>
+                        <img src={Logo} alt="YUPLUCK Logo" className="logo mb-3" /> {/* Logo above the welcome text */}
+                        <p className="lead text-white font-weight-bold">Grow your Gym business with us! Increase your gym bookings by 10x.</p>
                         <div className="mt-4">
                             <Link to="/login" className="btn btn-primary btn-lg mx-2">Login As Gym</Link>
                             <Link to="/register" className="btn btn-outline-light btn-lg mx-2">Register As Gym</Link>
                         </div>
+                    </div>
+                    {/* Contact Details */}
+                    <div className="contact-details position-absolute top-0 end-0 p-3 text-white">
+                        <p>Email: <a href="mailto:contact@yupluck.com" className="text-white">contact@yupluck.com</a></p>
+                        <p>Phone: <a href="tel:+918147327584" className="text-white">+91 81473 27584</a></p>
                     </div>
                 </div>
             </div>
@@ -33,26 +39,26 @@ const HomePage = () => {
                 <div className="container text-center">
                     <h2 className="display-4 font-weight-bold mb-3">GROW YOUR GYM BUSINESS <span className="text-success">10x</span></h2>
                     <p className="lead mb-4">Reach out to 100,000+ gym enthusiasts using our platform.</p>
-                    <p className="lead mb-4">Advertise your gym <span className="text-success">for free</span></p>
+                    <p className="lead mb-4">Manage your gym booking online <span className="text-success">for free</span></p>
                     <Link to="/register" className="btn btn-success btn-lg shadow-lg mt-4">Advertise Now</Link>
                 </div>
             </div>
 
             {/* Why Register with Us Section */}
             <div className="container my-5">
-                <h2 className="text-center mb-5">Why Register with Us?</h2>
+                <h2 className="text-center mb-5 text-white bg-success py-3">Why Register with Us?</h2> {/* Green background behind heading */}
                 <div className="row align-items-center">
                     <div className="col-md-6 mb-4 mb-md-0">
                         <img src={DumbellImage} alt="Gym Business Growth" className="img-fluid rounded shadow-lg" />
                     </div>
                     <div className="col-md-6">
-                        <div className="mb-4">
-                            <h3 className="text-success">Exponential Revenue Growth</h3>
-                            <p className="para-success">We provide the tools and support to help you maximize your business potential. With our platform, you can reach more customers, manage your bookings, and increase your revenue seamlessly.</p>
+                        <div className="bg-success text-white p-4 mb-4 rounded shadow-lg">
+                            <h3>Exponential Revenue Growth</h3>
+                            <p>Take your gym business online to maximize your business potential; you can reach up to 100,000+ nearby customers using our mobile application, manage your bookings, and increase your revenue seamlessly.</p>
                         </div>
-                        <div>
-                            <h3 className="text-success">Comprehensive Management System</h3>
-                            <p className="para-success">From slot management to subscription tracking, we offer an all-in-one solution to manage your gym efficiently. Spend less time worrying about logistics and more time growing your business.</p>
+                        <div className="bg-success text-white p-4 rounded shadow-lg">
+                            <h3>Comprehensive Management System</h3>
+                            <p>From slot management to subscription tracking, we offer an all-in-one solution to manage your gym efficiently. Spend less time worrying about logistics and more time growing your business.</p>
                         </div>
                     </div>
                 </div>
@@ -93,11 +99,19 @@ const HomePage = () => {
 
             {/* Grow Your Business Section */}
             <div className="container my-5">
-                <h2 className="text-center mb-5 para-success">Grow Your Business with Us!</h2>
+                <h2 className="text-center mb-5">
+                    <div className="bg-success text-white px-3 py-2 rounded d-inline-block">Grow Your Business with Us!</div>
+                </h2> {/* Green background behind the heading */}
                 <div className="row align-items-center">
                     <div className="col-md-6 mb-4 mb-md-0">
-                        <h3 className="text-success">Expand Your Reach</h3>
-                        <p className="para-success">With our platform, you can attract more members, offer online booking, and market your gym to a wider audience.</p>
+                        <h3>
+                            <div className="bg-success text-white px-3 py-2 rounded d-inline-block">Expand Your Reach</div>
+                        </h3> {/* Green background behind the subheading */}
+                        <p>
+                            <div className="bg-success text-white px-3 py-2 rounded d-inline-block">
+                                With our platform, you can attract more members, offer online booking, and market your gym to a wider audience.
+                            </div>
+                        </p> {/* Green background behind the paragraph */}
                     </div>
                     <div className="col-md-6">
                         <img src={DumbellImage} alt="Grow Your Business" className="img-fluid rounded shadow-lg" />
