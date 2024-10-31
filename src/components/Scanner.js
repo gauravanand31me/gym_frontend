@@ -1,7 +1,7 @@
 import { Scanner } from '@yudiel/react-qr-scanner';
 
-const ReactScan = () => {
-    return <Scanner onScan={(result) => console.log(result)} />;
+const ReactScan = ({onScan}) => {
+    return <Scanner onScan={onScan} />;
 };
 
 export default ReactScan;
