@@ -12,6 +12,7 @@ import SlotPage from './slots/Slots';
 import GymImages from './gymImages/GymImages';
 import MySubscriptionPage from './subscription/MySubscription';
 import QRCodeReader from './scan/QRCodeReader';
+import PrivacyPolicy from './privacy/Privacy';
 
 function App() {
     return (
@@ -29,6 +30,7 @@ function App() {
                 <Route path="/subscription" element={<MySubscriptionPage />} /> 
                 <Route path="/scan" element={<QRCodeReader />} /> 
                 <Route path="/notifications" element={<Notifications />} /> {/* Add the notifications route */}
+                <Route path="/privacy" element={<PrivacyPolicy />} />
             </Routes>
         </Router>
     );

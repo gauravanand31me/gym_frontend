@@ -1,0 +1,22 @@
+/* PrivacyPolicy.css */
+.privacy-policy.white-bg-container {
+    background-color: #ffffff; /* White background */
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    max-width: 800px;
+    margin: 20px auto; /* Centered on the page */
+}
+
+.privacy-policy h1,
+.privacy-policy h2 {
+    color: #007bff;
+}
+
+.privacy-policy ul {
+    padding-left: 20px;
+}
+
+.privacy-policy p {
+    line-height: 1.6;
+}
