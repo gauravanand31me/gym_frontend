@@ -83,6 +83,7 @@ const Header = () => {
               <Link to="/gallery" className={`nav-link ${activeTab === '/gallery' ? 'active' : ''}`} onClick={() => handleTabClick('/gallery')}>My Gallery</Link>
               <Link to="/subscription" className={`nav-link ${activeTab === '/subscription' ? 'active' : ''}`} onClick={() => handleTabClick('/subscription')}>My Subscription</Link>
               <Link to="/booking" className={`nav-link ${activeTab === '/booking' ? 'active' : ''}`} onClick={() => handleTabClick('/booking')}>My Bookings</Link>
+              <Link to="/scan" className={`nav-link ${activeTab === '/scan' ? 'active' : ''}`} onClick={() => handleTabClick('/booking')}>Scan</Link>
               <button className="logout-button" onClick={handleLogout}>
                 <FontAwesomeIcon icon={faSignOutAlt} />
                 <span>Logout</span>

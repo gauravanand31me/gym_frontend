@@ -11,6 +11,7 @@ import EquipmentPage from './equipment/Equipment';
 import SlotPage from './slots/Slots';
 import GymImages from './gymImages/GymImages';
 import MySubscriptionPage from './subscription/MySubscription';
+import QRCodeReader from './scan/QRCodeReader';
 
 function App() {
     return (
@@ -26,6 +27,7 @@ function App() {
                 <Route path="/slots" element={<SlotPage />} /> 
                 <Route path="/gallery" element={<GymImages />} /> 
                 <Route path="/subscription" element={<MySubscriptionPage />} /> 
+                <Route path="/scan" element={<QRCodeReader />} /> 
                 <Route path="/notifications" element={<Notifications />} /> {/* Add the notifications route */}
             </Routes>
         </Router>

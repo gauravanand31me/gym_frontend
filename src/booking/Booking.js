@@ -125,7 +125,7 @@ const BookingPage = () => {
                                                 </td>
                                                 <td>{booking.gymName}</td>
                                                 <td>{booking.gymRating}</td>
-                                                <td>{new Date(`1970-01-01T${booking.slotStartTime}:00`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</td>
+                                                <td>{new Date(`${booking.bookingDate}${booking.slotStartTime}:00`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</td>
                                                 <td>INR {booking.subscriptionPrice}</td>
                                                 <td>{new Date(booking.create).toLocaleString()}</td>
                                                 <td>{booking.invitedBuddyCount}</td>
