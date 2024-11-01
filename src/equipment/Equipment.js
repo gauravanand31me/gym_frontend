@@ -86,7 +86,7 @@ const EquipmentPage = () => {
                     <table className="equipment-table">
                         <thead>
                             <tr>
-                                <th>Icon</th>
+                         
                                 <th>Name</th>
                                 <th>Quantity</th>
                                 <th>Actions</th>
@@ -95,12 +95,7 @@ const EquipmentPage = () => {
                         <tbody>
                             {equipmentList && equipmentList?.map(equip => (
                                 <tr key={equip.id}>
-                                    <td>
-                                        <div
-                                            className="equipment-icon"
-                                            dangerouslySetInnerHTML={{ __html: equip.icon_svg }}
-                                        />
-                                    </td>
+                                  
                                     <td>
                                         {editing === equip.id ? (
                                             <input
@@ -160,7 +155,12 @@ const EquipmentPage = () => {
                                 className="selected-icon"
                                 dangerouslySetInnerHTML={{ __html: selectedEquipment.icon_svg }}
                             />
-                            <span>Select a new equipment from below, enter quantity and click Add Equipment</span>
+                            <div>
+                                <span className="selected-equipment-text">
+                                    Selected Equipment: {selectedEquipment.equipment_name}
+                                </span>
+                                <p>Enter the quantity below and click "Add Equipment".</p>
+                            </div>
                         </div>
                     )}
                     <input
@@ -177,7 +177,7 @@ const EquipmentPage = () => {
                         <i className="fas fa-plus-circle"></i> Add Equipment
                     </button>
                     <EquipmentSelection onSelect={setSelectedEquipment} />
-                    
+
                 </div>
             </div>
         </div>

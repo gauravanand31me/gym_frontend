@@ -11,7 +11,7 @@ const SlotPage = () => {
         startTime: '',
         capacity: '',
         price: '',
-        timePeriod: '',
+        timePeriod: '1',
     });
 
     useEffect(() => {
@@ -30,11 +30,13 @@ const SlotPage = () => {
     };
 
     const handleAddSlot = async () => {
+
         try {
             const formattedSlot = {
                 ...newSlot,
                 startTime: newSlot.startTime // This is now formatted by selecting from the dropdown
             };
+      
             await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/slots`, formattedSlot, {
                 headers: { 'auth': document.cookie.replace(/(?:(?:^|.*;\s*)auth\s*=\s*([^;]*).*$)|^.*$/, "$1") }
             });
@@ -95,12 +97,7 @@ const SlotPage = () => {
                         value={newSlot.price}
                         onChange={(e) => setNewSlot({ ...newSlot, price: e.target.value })}
                     />
-                    <input
-                        type="number"
-                        placeholder="Time Period (hours)"
-                        value={newSlot.timePeriod}
-                        onChange={(e) => setNewSlot({ ...newSlot, timePeriod: e.target.value })}
-                    />
+                   
                 </div>
                 <button className="add-button" onClick={handleAddSlot}>
                     <FontAwesomeIcon icon={faPlusCircle} /> Add Slot
