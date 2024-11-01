@@ -100,14 +100,14 @@ const BookingPage = () => {
                                         <tr>
                                             <th scope="col">Booking ID</th>
                                             <th scope="col">User Full Name</th>
+                                            <th scope="col">User Mobile Number</th>
                                             <th scope="col">Booking Date</th>
                                             <th scope="col">Visited</th>
-                                            <th scope="col">Gym Name</th>
                                             <th scope="col">Gym Rating</th>
                                             <th scope="col">Slot Start Time</th>
                                             <th scope="col">Subscription Price</th>
                                             <th scope="col">Created At</th>
-                                            <th scope="col">Invited Buddy Count</th>
+                                            <th scope="col">Payment Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -115,6 +115,7 @@ const BookingPage = () => {
                                             <tr key={index}>
                                                 <th scope="row">{booking.bookingId}</th>
                                                 <td>{booking.userFullName}</td>
+                                                <td>{booking.userMobileNumber}</td>
                                                 <td>{new Date(booking.bookingDate).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</td>
                                                 <td>
                                                     {booking.visited ? (
@@ -123,12 +124,12 @@ const BookingPage = () => {
                                                         <span className="badge bg-danger">Not Visited</span>
                                                     )}
                                                 </td>
-                                                <td>{booking.gymName}</td>
+                                          
                                                 <td>{booking.gymRating}</td>
-                                                <td>{new Date(`${booking.bookingDate}${booking.slotStartTime}:00`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</td>
+                                                <td>{`${booking.slotStartTime}`}</td>
                                                 <td>INR {booking.subscriptionPrice}</td>
                                                 <td>{new Date(booking.create).toLocaleString()}</td>
-                                                <td>{booking.invitedBuddyCount}</td>
+                                                <td>{(booking.isPaid) ?   <span className="badge bg-success">Paid</span> : <span className="badge bg-danger">Not Paid</span>}</td>
                                             </tr>
                                         ))}
                                     </tbody>
