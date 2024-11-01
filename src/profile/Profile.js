@@ -4,7 +4,7 @@ import { Card, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDumbbell, faClock, faImage, faMapMarkerAlt, faSave, faQRCode } from '@fortawesome/free-solid-svg-icons';
+import { faDumbbell, faClock, faImage, faMapMarkerAlt, faSave, faBarcode  } from '@fortawesome/free-solid-svg-icons';
 import './Profile.css'; // Include your CSS file for styling
 
 const GymDisplay = () => {
@@ -80,7 +80,7 @@ const GymDisplay = () => {
                     <div className="col-md-4 mb-4">
                         <Card className="step-card shadow">
                             <Card.Body>
-                                <FontAwesomeIcon icon={faQRCode} size="3x" className="icon mb-3" />
+                                <FontAwesomeIcon icon={faBarcode} size="3x" className="icon mb-3" />
                                 <Card.Title className="card-title">Start Receiving Orders</Card.Title>
                                 <Card.Text className="card-text">
                                     Start accepting bookings and orders from clients by scanning their QR codes.
