@@ -4,7 +4,10 @@ import ReactScan from '../components/Scanner';
 
 const QRCodeReader = () => {
     const handleOnScan = (result) => {
-        alert("Result is"+result);
+        // Assuming the result object has a property `text` that contains the scanned value
+        if (result) {
+            alert("Result is: " + result.text); // Adjust this property based on your QR scanner's output
+        }
     }
 
     return (
@@ -12,8 +15,7 @@ const QRCodeReader = () => {
             <Header />
             <ReactScan onScan={handleOnScan}/>
         </div>
-    )
-
+    );
 }
 
 export default QRCodeReader;
