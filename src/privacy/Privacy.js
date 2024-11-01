@@ -60,7 +60,7 @@ const PrivacyPolicy = () => {
             <h2>7. Contact Us</h2>
             <p>
                 If you have any questions about this Privacy Policy, please contact us at{' '}
-                <a href="mailto:contact@yupluck.com">contact@yourapp.com</a>.
+                <a href="mailto:contact@yupluck.com">contact@yupluck.com</a>.
             </p>
 
           
