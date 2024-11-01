@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './Header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell, faSignOutAlt, faBars } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate, Link, useLocation } from 'react-router-dom'; // Import useLocation
+import { faBell, faSignOutAlt, faBars, faQrcode } from '@fortawesome/free-solid-svg-icons'; // Import the scan icon
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import logo from "../img/logo3.png";
@@ -14,7 +14,7 @@ const Header = () => {
   
   // Get current location to track active tab
   const location = useLocation();
-  const [activeTab, setActiveTab] = useState(location.pathname); // Initialize with the current path
+  const [activeTab, setActiveTab] = useState(location.pathname);
 
   useEffect(() => {
     const verifyToken = async () => {
@@ -54,10 +54,9 @@ const Header = () => {
     navigate('/login');
   };
 
-  // Function to handle tab clicks
   const handleTabClick = (path) => {
-    setActiveTab(path); // Set the clicked tab as active
-    navigate(path); // Navigate to the clicked tab
+    setActiveTab(path);
+    navigate(path);
   };
 
   return (
@@ -67,9 +66,17 @@ const Header = () => {
           <Link className="fancy-link" to="/">
             <img src={logo} height="50" width="100" alt="Logo" />
           </Link>
+          
         </div>
+
+        {loginId && <button className="nav-link" onClick={() => handleTabClick('/scan')}>
+                  <FontAwesomeIcon icon={faQrcode} />
+               
+        </button> }
+        
   
         <button className="menu-button" onClick={handleMenuToggle}>
+             
           <FontAwesomeIcon icon={faBars} />
         </button>
   
@@ -108,6 +115,7 @@ const Header = () => {
                 <Link to="/gallery" className={`nav-link ${activeTab === '/gallery' ? 'active' : ''}`} onClick={() => handleTabClick('/gallery')}>My Gallery</Link>
                 <Link to="/subscription" className={`nav-link ${activeTab === '/subscription' ? 'active' : ''}`} onClick={() => handleTabClick('/subscription')}>My Subscription</Link>
                 <Link to="/booking" className={`nav-link ${activeTab === '/booking' ? 'active' : ''}`} onClick={() => handleTabClick('/booking')}>My Bookings</Link>
+                
                 <button className="logout-button" onClick={handleLogout}>
                   <FontAwesomeIcon icon={faSignOutAlt} />
                   <span>Logout</span>
