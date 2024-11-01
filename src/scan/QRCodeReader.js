@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Header from '../components/Header';
 import ReactScan from '../components/Scanner';
+import axios from "axios";
 
 const QRCodeReader = () => {
     // State to hold the scanned result
