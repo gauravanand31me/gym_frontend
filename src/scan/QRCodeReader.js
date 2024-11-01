@@ -6,11 +6,15 @@ const QRCodeReader = () => {
     // State to hold the scanned result
     const [scanResult, setScanResult] = useState(null);
 
-    const handleOnScan = (result) => {
+    const handleOnScan = async (result) => {
         // Assuming result is the whole JSON object from the scanner
         if (result) {
             // Update the state with the scanned result
-            setScanResult(result); // Store the entire JSON object
+            setScanResult(result[0].rawValue); // Store the entire JSON object
+            const response = await axios.get(result[0].rawValue, {
+                headers: { 'auth': document.cookie.replace(/(?:(?:^|.*;\s*)auth\s*=\s*([^;]*).*$)|^.*$/, "$1") }
+            });
+            setScanResult(response.data);
         }
     };
 
